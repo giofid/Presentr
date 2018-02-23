@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "Daniel Lozano" => "dan@danielozano.com" }
   s.social_media_url   = "http://twitter.com/danlozanov"
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "10.0"
   s.source       = { :git => "https://github.com/icalialabs/Presentr.git", :tag => "1.3" }
   s.source_files = "Presentr/**/*.{swift}"
   s.resources    = "Presentr/**/*.{xib,ttf}"

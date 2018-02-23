@@ -22,6 +22,7 @@ public enum ModalCenterPosition {
     case center
     case topCenter
     case bottomCenter
+    case bottom(percentage: Float)
     case custom(centerPoint: CGPoint)
     case customOrigin(origin: CGPoint)
 
@@ -32,7 +33,7 @@ public enum ModalCenterPosition {
 
      - returns: CGPoint representing the presented view controller's center point.
      */
-    func calculateCenterPoint(_ containerFrame: CGRect) -> CGPoint? {
+    func calculateCenterPoint(_ containerFrame: CGRect, size: CGSize) -> CGPoint? {
         switch self {
         case .center:
             return CGPoint(x: containerFrame.origin.x + (containerFrame.width / 2),
@@ -47,6 +48,9 @@ public enum ModalCenterPosition {
             return point
         case .customOrigin(_):
             return nil
+        case .bottom(let percentage):
+            return CGPoint(x: containerFrame.origin.x + (containerFrame.width / 2),
+                           y: containerFrame.origin.y + containerFrame.height - (min(containerFrame.height * (CGFloat(percentage)), size.height) / 2))
         }
     }
 

@@ -79,6 +79,15 @@ public enum PresentationType {
         }
     }
 
+    var shouldAdaptPresentationStyle: Bool {
+        switch self {
+        case .alert, .popup, .fullScreen:
+            return false
+        default:
+            return true
+        }
+    }
+
     /// Default round corners setting.
     var shouldRoundCorners: Bool {
         switch self {
