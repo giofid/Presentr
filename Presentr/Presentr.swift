@@ -103,23 +103,6 @@ public class Presentr: NSObject {
         self.presentationType = presentationType
     }
 
-    // MARK: Class Helper Methods
-
-    /**
-     Public helper class method for creating and configuring an instance of the 'AlertViewController'
-
-     - parameter title: Title to be used in the Alert View Controller.
-     - parameter body: Body of the message to be displayed in the Alert View Controller.
-
-     - returns: Returns a configured instance of 'AlertViewController'
-     */
-    public static func alertViewController(title: String = PresentrConstants.Strings.alertTitle, body: String = PresentrConstants.Strings.alertBody) -> AlertViewController {
-        let alertController = AlertViewController()
-        alertController.titleText = title
-        alertController.bodyText = body
-        return alertController
-    }
-
     // MARK: Private Methods
 
     fileprivate var presentingViewController: UIViewController!
@@ -152,6 +135,7 @@ public class Presentr: NSObject {
         self.presentedViewController = presentedVC
         self.presentingViewController = presentingVC
         self.sourceView = sourceView
+        self.barButtonItem = nil
         presentViewController(presentingViewController: presentingVC, presentedViewController: presentedVC, animated: animated, completion: completion)
     }
     
@@ -168,6 +152,7 @@ public class Presentr: NSObject {
         self.presentedViewController = presentedVC
         self.presentingViewController = presentingVC
         self.barButtonItem = barButtonItem
+        self.sourceView = nil
         presentViewController(presentingViewController: presentingVC, presentedViewController: presentedVC, animated: animated, completion: completion)
     }
 
@@ -209,6 +194,14 @@ extension Presentr: UIViewControllerTransitioningDelegate {
     // MARK: - Private Helper's
 
     fileprivate func presentationController(_ presented: UIViewController, presenting: UIViewController?) -> UIPresentationController {
+        switch presented {
+        case let actionSheetController as ActionSheetController:
+            actionSheetController.appearance.applyAppearance(appearance.actionSheet)
+        case let alertViewController as AlertViewController:
+            alertViewController.appearance.applyAppearance(appearance.alert)
+        default:
+            break
+        }
         if presentationType.shouldAdaptPresentationStyle && presenting?.traitCollection.horizontalSizeClass == .regular &&  presenting?.traitCollection.verticalSizeClass == .regular {
             let popoverPresentrController = PopoverPresentrController(presentedViewController: presented, presenting: presenting)
             popoverPresentrController.adaptivePresentationDelegate = self
@@ -248,8 +241,82 @@ extension Presentr: AdaptivePresentationDelegate {
 
 // MARK: - UIViewController extension to provide customPresentViewController(_:viewController:animated:completion:) method
 
-public extension UIViewController {
 
+protocol PropertyStoring {
+    
+    associatedtype T
+    
+    func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T
+}
+
+extension PropertyStoring {
+    
+}
+
+public extension UIViewController {
+    
+    typealias T = Presentr
+    
+    func getAssociatedObject(_ key: UnsafeRawPointer!, defaultValue: T) -> T {
+        guard let value = objc_getAssociatedObject(self, key) as? T else {
+            return defaultValue
+        }
+        return value
+    }
+    
+    private struct CustomProperties {
+        
+        static var menuPresentr: Presentr = {
+            let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: false)
+            let presentationType = PresentationType.dynamic(center: center)
+            let presenter = Presentr(presentationType: presentationType)
+            presenter.dismissOnSwipe = true
+            return presenter
+        }()
+        
+        static var actionSheetPresentr: Presentr = {
+            let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: true)
+            let presentationType = PresentationType.dynamic(center: center)
+            let presenter = Presentr(presentationType: presentationType)
+            presenter.dismissOnSwipe = false
+            presenter.appearance.contentInset = 15
+            presenter.appearance.roundCorners = true
+            presenter.appearance.cornerRadius = 6
+            presenter.appearance.actionSheet.item.textAlignment = .center
+            return presenter
+        }()
+        
+        static var alertPresenter: Presentr = {
+            let presenter = Presentr(presentationType: .dynamic(center: .center))
+            presenter.transitionType = .crossDissolve
+            presenter.dismissTransitionType = .crossDissolve
+            presenter.dismissOnSwipe = false
+            presenter.dismissOnTap = false
+            presenter.appearance.contentInset = 15
+            presenter.appearance.roundCorners = true
+            presenter.appearance.cornerRadius = 6
+            return presenter
+        }()
+    }
+    
+    var menuPresentr: Presentr {
+        get {
+            return getAssociatedObject(&CustomProperties.menuPresentr, defaultValue: CustomProperties.menuPresentr)
+        }
+    }
+    
+    var actionSheetPresentr: Presentr {
+        get {
+            return getAssociatedObject(&CustomProperties.actionSheetPresentr, defaultValue: CustomProperties.actionSheetPresentr)
+        }
+    }
+    
+    var alertPresentr: Presentr {
+        get {
+            return getAssociatedObject(&CustomProperties.alertPresenter, defaultValue: CustomProperties.alertPresenter)
+        }
+    }
+    
     /// Present a view controller with a custom presentation provided by the Presentr object.
     ///
     /// - Parameters:

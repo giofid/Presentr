@@ -42,6 +42,9 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     /// A custom background view to be added on top of the regular background view.
     let customBackgroundView: UIView?
     
+    /// A custom background view to be added on top of the regular background view.
+    let contentInset: CGFloat
+    
     weak var adaptivePresentationDelegate: AdaptivePresentationDelegate?
 
     fileprivate var conformingPresentedController: PresentrDelegate? {
@@ -68,8 +71,6 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     fileprivate var visualEffect: UIVisualEffect?
 
     // MARK: Swipe gesture
-
-    fileprivate var presentedViewIsBeingDissmissed: Bool = false
 
     fileprivate var presentedViewFrame: CGRect = .zero
 
@@ -113,6 +114,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
         self.contextFrameForPresentation = contextFrameForPresentation
         self.shouldIgnoreTapOutsideContext = shouldIgnoreTapOutsideContext
         self.customBackgroundView = appearance.customBackgroundView
+        self.contentInset = appearance.contentInset
 
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
@@ -227,6 +229,10 @@ extension PresentrController {
     
     // MARK: Presentation
     
+    override var shouldPresentInFullscreen: Bool {
+        return false
+    }
+    
     override var frameOfPresentedViewInContainerView: CGRect {
         var presentedViewFrame = CGRect.zero
         let containerBounds = containerFrame
@@ -243,7 +249,7 @@ extension PresentrController {
         
         presentedViewFrame.size = size
         presentedViewFrame.origin = origin
-
+        
         return presentedViewFrame
     }
     
@@ -333,8 +339,12 @@ fileprivate extension PresentrController {
     func getWidthFromType(_ parentSize: CGSize) -> Float {
         guard let size = presentationType.size() else {
             if case .dynamic(let modalCenterPosition) = presentationType {
-                if case .bottom( _) = modalCenterPosition {
-                    return Float(parentSize.width)
+                if case .bottom(_ , let fixedWidth) = modalCenterPosition {
+                    if fixedWidth {
+                        return Float(min(parentSize.width, parentSize.height) -  contentInset * 2)
+                    } else {
+                        return Float(parentSize.width - contentInset * 2)
+                    }
                 } else {
                     presentedViewController.view.layoutIfNeeded()
                     return Float(presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).width)
@@ -351,22 +361,22 @@ fileprivate extension PresentrController {
             if case .dynamic(let modalCenterPosition) = presentationType {
                 presentedViewController.view.layoutIfNeeded()
                 let height = presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-                if case .bottom(let percentage) = modalCenterPosition {
-                    return Float(min(parentSize.height * CGFloat(percentage), height+pannedHeight))
-                } else {
-                    return Float(height)
+//                if presentedViewController.view is AutoSizingView {
+//                    height = presentedViewController.view.intrinsicContentSize.height
+//                }
+                if case .bottom(let percentage, _) = modalCenterPosition {
+                    return Float(min(parentSize.height * CGFloat(percentage), height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2)))
                 }
              }
             return 0
         }
-
         return size.height.calculateHeight(parentSize)
     }
 
     func getCenterPointFromType(size: CGSize) -> CGPoint? {
         let containerBounds = containerFrame
         let position = presentationType.position()
-        return position.calculateCenterPoint(containerBounds, size: size)
+        return position.calculateCenterPoint(containerBounds, size: size, contentInset: contentInset)
     }
 
     func getOriginFromType() -> CGPoint? {
@@ -376,6 +386,12 @@ fileprivate extension PresentrController {
 
     func calculateOrigin(_ center: CGPoint, size: CGSize) -> CGPoint {
         let x: CGFloat = center.x - size.width / 2
+        if case .dynamic(let modalCenterPosition) = presentationType {
+            if case .bottom(_) = modalCenterPosition{
+                let y: CGFloat = center.y - size.height / 2 - (contentInset != 0 ? (contentInset + pannedHeight) : 0)
+                return CGPoint(x: x, y: y)
+            }
+        }
         let y: CGFloat = center.y - size.height / 2
         return CGPoint(x: x, y: y)
     }
@@ -430,18 +446,12 @@ extension PresentrController {
         
         let velocity = gesture.velocity(in: presentedViewController.view)
         let translation = gesture.translation(in: presentedViewController.view)
-        //        if shouldSwipeTop && velocity.y > 0 {
-        //            return
-        //        } else if shouldSwipeBottom && velocity.y < 0 {
-        //            return
-        //        }
         if velocity.x / velocity.y < 5.0 {
             if presentedViewCenter.y + translation.y > presentedViewCenter.y {
                 presentedViewController.view.center = CGPoint(x: presentedViewCenter.x, y: presentedViewCenter.y + translation.y)
             } else {
-                pannedHeight = -translation.y / 10.0
-                presentedViewController.view.center = CGPoint(x: presentedViewCenter.x, y: presentedViewCenter.y - pannedHeight)
-                presentedViewController.view.frame = CGRect(x: presentedViewController.view.frame.origin.x, y: presentedViewController.view.frame.origin.y, width: presentedViewController.view.frame.width, height: presentedViewFrame.height + pannedHeight)
+                pannedHeight = -translation.y / 10
+                presentedView?.frame = CGRect(x: presentedViewFrame.origin.x, y: presentedViewFrame.origin.y - pannedHeight, width: presentedViewFrame.width, height: presentedViewFrame.height + pannedHeight)
             }
         }
         closeSpeed = velocity.y
@@ -449,10 +459,6 @@ extension PresentrController {
     }
 
     func swipeGestureEnded() {
-        //        guard !presentedViewIsBeingDissmissed else {
-        //            return
-        //        }
-        
         if closeSpeed > 750.0 || closePercent > 0.33 {
             presentedViewController.dismiss(animated: dismissAnimated, completion: nil)
         } else {
@@ -460,13 +466,13 @@ extension PresentrController {
             closePercent = 0.0
             pannedHeight = 0.0
             
-            UIView.animate(withDuration: 0.5,
+            UIView.animate(withDuration: 0.4,
                            delay: 0,
                            usingSpringWithDamping: 0.7,
                            initialSpringVelocity: 1,
                            options: [],
                            animations: {
-                            self.presentedViewController.view.frame = self.presentedViewFrame
+                            self.presentedView?.frame = self.presentedViewFrame
             }, completion: nil)
         }
     }

@@ -46,12 +46,14 @@ extension ActionSheetHeader: ActionSheetItemProtocol {
         cell.backgroundColor = headerAppearance?.backgroundColor
         cell.textLabel?.text = title
         cell.textLabel?.font = headerAppearance?.font
+        cell.textLabel?.textAlignment = appearance.textAlignment
         cell.detailTextLabel?.text = subtitle
         cell.detailTextLabel?.font = headerAppearance?.detailTextFont
         cell.imageView?.image = image
         cell.accessoryView = UIImageView(image: accessoryImage)
         cell.textLabel?.textColor = headerAppearance?.textColor
         cell.detailTextLabel?.textColor = headerAppearance?.textColor
+        cell.detailTextLabel?.textAlignment = appearance.textAlignment
     }
     
     func createCell(for tableView: UITableView) -> MinHeightTableViewCell {
@@ -61,7 +63,7 @@ extension ActionSheetHeader: ActionSheetItemProtocol {
         return cell
     }
     
-    func applyAppearance(_ appearance: PresentrAppearance) {
-        self.appearance = ActionSheetHeaderAppearance(copy: appearance.header)
+    func applyAppearance(_ appearance: ActionSheetAppearance) {
+        self.appearance = appearance.header
     }
 }

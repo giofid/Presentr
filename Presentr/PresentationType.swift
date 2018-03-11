@@ -81,7 +81,7 @@ public enum PresentationType {
 
     var shouldAdaptPresentationStyle: Bool {
         switch self {
-        case .alert, .popup, .fullScreen:
+        case .alert, .popup, .fullScreen, .dynamic(center: .center):
             return false
         default:
             return true
@@ -91,7 +91,7 @@ public enum PresentationType {
     /// Default round corners setting.
     var shouldRoundCorners: Bool {
         switch self {
-        case .alert, .popup:
+        case .alert, .popup, .dynamic(_):
             return true
         default:
             return false

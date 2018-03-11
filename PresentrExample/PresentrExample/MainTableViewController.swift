@@ -11,6 +11,7 @@ import Presentr
 
 enum ExampleSection {
 
+    case uikit
     case actionsheet
     case alert
     case popup
@@ -20,13 +21,15 @@ enum ExampleSection {
     case other
 
     static var allSections: [ExampleSection] {
-        return [.actionsheet, .alert, .popup, .topHalf, .bottomHalf, .advanced, .other]
+        return [.uikit, .actionsheet, .alert, .popup, .topHalf, .bottomHalf, .advanced, .other]
     }
 
     var items: [ExampleItem] {
         switch self {
+        case .uikit:
+            return [.alert, .actionSheet]
         case .actionsheet:
-            return [.actionSheetDefault]
+            return [.menuDefault, .actionSheetDefault]
         case .alert:
             return [.alertDefault, .alertCustom, .alertWithout]
         case .popup:
@@ -46,6 +49,10 @@ enum ExampleSection {
 
 enum ExampleItem: String {
 
+    case alert = "UIKit default alert"
+    case actionSheet = "UIKit default actionSheet"
+    
+    case menuDefault = "Menù with default animation"
     case actionSheetDefault = "Actionsheet with default animation"
     
     case alertDefault = "Alert with default animation"
@@ -75,6 +82,13 @@ enum ExampleItem: String {
 
     var action: Selector {
         switch self {
+        case .alert:
+            return #selector(MainTableViewController.uikitAlert)
+        case .actionSheet:
+            return #selector(MainTableViewController.uikitActionSheet)
+            
+        case .menuDefault:
+            return #selector(MainTableViewController.menuDefault)
         case .actionSheetDefault:
             return #selector(MainTableViewController.actionSheetDefault)
         case .alertDefault:
@@ -135,12 +149,33 @@ class MainTableViewController: UITableViewController {
         return presenter
     }()
 
+    let menuPresesenter: Presentr = {
+        let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: false)
+        let presentationType = PresentationType.dynamic(center: center)
+        let presenter = Presentr(presentationType: presentationType)
+        
+        presenter.appearance.contentInset = 0
+        presenter.appearance.roundCorners = false
+        presenter.dismissOnSwipe = true
+        presenter.appearance.actionSheet.item.textAlignment = .left
+        presenter.appearance.actionSheet.header.textAlignment = .left
+        presenter.appearance.actionSheet.header.font = UIFont.preferredFont(forTextStyle: .body)
+        presenter.appearance.actionSheet.header.detailTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        presenter.appearance.actionSheet.item.font = UIFont.preferredFont(forTextStyle: .caption2)
+        return presenter
+    }()
+    
     let actionSheetPresesenter: Presentr = {
-        let center = ModalCenterPosition.bottom(percentage: 0.8)
+        let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: true)
         let presentationType = PresentationType.dynamic(center: center)
         
         let presenter = Presentr(presentationType: presentationType)
-        presenter.dismissOnSwipe = true
+        presenter.dismissOnSwipe = false
+        presenter.appearance.actionSheet.item.textAlignment = .center
+        presenter.appearance.actionSheet.header.textAlignment = .center
+        presenter.appearance.actionSheet.title.font = UIFont.preferredFont(forTextStyle: .body)
+        presenter.appearance.actionSheet.item.font = UIFont.preferredFont(forTextStyle: .caption2)
+        presenter.appearance.actionSheet.title.messageTextFont = UIFont.preferredFont(forTextStyle: .caption2)
         return presenter
     }()
     
@@ -188,11 +223,21 @@ class MainTableViewController: UITableViewController {
     }()
 
     lazy var alertController: AlertViewController = {
-        let alertController = Presentr.alertViewController(title: "Are you sure? ⚠️", body: "This action can't be undone!")
-        let cancelAction = AlertAction(title: "NO, SORRY! 😱", style: .cancel) { alert in
+        let alertController = AlertViewController(title: "Are you sure?", body: "This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone!")
+        let appearance = alertController.appearance
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.button.textColor = .darkGray
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.textColor = .darkGray
+        let cancelAction = AlertAction(title: "NO, SORRY!", style: .default) { alert in
             print("CANCEL!!")
         }
-        let okAction = AlertAction(title: "DO IT! 🤘", style: .destructive) { alert in
+        let okAction = AlertAction(title: "DO IT!", style: .destructive) { alert in
             print("OK!!")
         }
         alertController.addAction(cancelAction)
@@ -244,7 +289,7 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         handleItem(itemFor(indexPath: indexPath))
-        tableView.deselectRow(at: indexPath, animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     // MARK: ExampleItem handling
@@ -264,11 +309,46 @@ class MainTableViewController: UITableViewController {
 
 extension MainTableViewController {
 
+    @objc func uikitAlert() {
+        let alertController = UIAlertController(title: "Are you sure?", message: "This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone!", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        let okAction = UIAlertAction(title: "DO IT!", style: .cancel) { alert in
+            print("OK!!")
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func uikitActionSheet() {
+        let alertController = UIAlertController(title: "Are you sure?", message: "This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone!", preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        let okAction = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     // MARK: Alert
 
-    @objc func actionSheetDefault() {
+    @objc func menuDefault() {
         let header = ActionSheetHeader(title: "pippo.pdf", subtitle: "sottotitolo", image: nil, accessoryImage: nil)
         let actionSheetController = ActionSheetController(header: header)
+        let appearance = actionSheetController.appearance
+        appearance.item.shouldShowSeparator = false
+        appearance.header.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.item.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.header.detailTextFont = UIFont.preferredFont(forTextStyle: .caption2)
         actionSheetController.addAction(ActionSheetAction(title: "action 1", image: nil, handler: { (action) in
             print("action 1")
         }))
@@ -284,14 +364,34 @@ extension MainTableViewController {
         actionSheetController.addAction(ActionSheetAction(title: "action 5", image: nil, handler: { (action) in
             print("action 5")
         }))
-        customPresent(actionSheetController, presentr: actionSheetPresesenter, from: self.view, animated: true)
+        customPresent(actionSheetController, presentr: menuPresesenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+    }
+    
+    @objc func actionSheetDefault() {
+        let actionSheetController = ActionSheetController(title: "Are you sure?", message: "This action can't be undone!", cancelAction: ActionSheetAction(title: "Cancel", image: nil, handler: nil))
+        let appearance = actionSheetController.appearance
+        appearance.item.shouldShowSeparator = true
+        appearance.item.separatorInsets = .zero
+        appearance.item.textAlignment = .center
+        appearance.title.textAlignment = .center
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.item.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.messageTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        actionSheetController.addAction(ActionSheetAction(title: "action 1", image: nil, handler: { (action) in
+            print("action 1")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
+            print("action 2")
+        }))
+        customPresent(actionSheetController, presentr: actionSheetPresesenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
     }
     
     @objc func alertDefault() {
-        presenter.presentationType = .alert
-        presenter.transitionType = nil
-        presenter.dismissTransitionType = nil
-        presenter.dismissAnimated = true
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
         customPresent(alertController, presentr: presenter, animated: true)
     }
 

@@ -32,18 +32,18 @@ public class ActionSheetAction: ActionSheetItem {
 
 extension ActionSheetAction: ActionSheetItemProtocol {
     
-    func applyAppearance(_ appearance: PresentrAppearance) {
-        self.appearance = ActionSheetHeaderAppearance(copy: appearance.item)
+    func applyAppearance(_ appearance: ActionSheetAppearance) {
+        self.appearance.applyAppearance(appearance.item)
     }
     
     func applyAppearance(to cell: MinHeightTableViewCell) {
         cell.minHeight = appearance.height
         cell.imageView?.image = image
         cell.textLabel?.text = title
-        cell.separatorInset = appearance.separatorInsets
         cell.tintColor = appearance.tintColor
         cell.textLabel?.textColor = appearance.textColor
         cell.textLabel?.font = appearance.font
+        cell.textLabel?.textAlignment = appearance.textAlignment
     }
     
     func createCell(for tableView: UITableView) -> MinHeightTableViewCell {

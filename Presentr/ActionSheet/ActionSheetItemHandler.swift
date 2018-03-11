@@ -27,6 +27,7 @@ open class ActionSheetItemHandler: NSObject {
         case actions(actions: [ActionSheetAction])
 //        case buttons
         case header(header: ActionSheetHeader)
+        case title(title: ActionSheetTitle)
     }
     
     
@@ -39,6 +40,7 @@ open class ActionSheetItemHandler: NSObject {
 //        case .buttons: return actionSheet?.buttons ?? []
         case .actions(let actions): return actions
         case .header(let header): return [header]
+        case .title(let title): return [title]
         }
     }
 }

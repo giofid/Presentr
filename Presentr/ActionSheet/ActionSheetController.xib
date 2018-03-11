@@ -12,27 +12,64 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActionSheetController" customModule="Presentr" customModuleProvider="target">
             <connections>
-                <outlet property="actionsTableView" destination="8md-fJ-abI" id="RdV-Ng-Gjw"/>
-                <outlet property="containerView" destination="BUr-vp-3CN" id="1Fr-QE-nid"/>
-                <outlet property="headerTableView" destination="Deh-LZ-gVW" id="6l8-P3-I7U"/>
-                <outlet property="view" destination="b3J-Yw-jeO" id="9Hg-7J-CQ5"/>
+                <outlet property="actionsTableView" destination="A1E-9y-IFr" id="Ihp-ge-C7Z"/>
+                <outlet property="cancelTableView" destination="WqH-ZS-T0r" id="1JG-YU-Kvl"/>
+                <outlet property="containerView" destination="IF4-cX-OPH" id="feE-QT-Lm4"/>
+                <outlet property="headerActionView" destination="lRh-Lz-2XI" id="wyE-P1-k0Z"/>
+                <outlet property="headerActionsView" destination="Df3-wI-LWD" id="TgF-aP-nD8"/>
+                <outlet property="headerTableView" destination="a3B-3C-EGM" id="31V-CP-JkT"/>
+                <outlet property="separatorView" destination="lIP-gD-hQm" id="gl3-pw-rki"/>
+                <outlet property="view" destination="beP-y2-YR7" id="H8h-hx-rc6"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="b3J-Yw-jeO">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+        <view contentMode="scaleToFill" id="beP-y2-YR7" customClass="AutoSizingView" customModule="Presentr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BUr-vp-3CN" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="IF4-cX-OPH" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="128" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Deh-LZ-gVW" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="128"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRh-Lz-2XI" customClass="AutoSizingView" customModule="Presentr" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="75.5"/>
+                            <subviews>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Df3-wI-LWD" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="75.5"/>
+                                    <subviews>
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="253" verticalCompressionResistancePriority="755" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="128" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a3B-3C-EGM" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="25.5"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </tableView>
+                                        <view contentMode="scaleToFill" verticalHuggingPriority="254" verticalCompressionResistancePriority="756" translatesAutoresizingMaskIntoConstraints="NO" id="lIP-gD-hQm" customClass="SeparatorView" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="25.5" width="375" height="0.0"/>
+                                            <color key="backgroundColor" white="0.77885974702380945" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="0.5" id="EfK-Xk-QNh"/>
+                                            </constraints>
+                                        </view>
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="753" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="200" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A1E-9y-IFr" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="25.5" width="375" height="50"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="E4j-wM-hJC"/>
+                                            </constraints>
+                                        </tableView>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </tableView>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="519" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8md-fJ-abI" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="128" width="375" height="519"/>
+                            <constraints>
+                                <constraint firstItem="Df3-wI-LWD" firstAttribute="leading" secondItem="lRh-Lz-2XI" secondAttribute="leading" id="3dX-DU-v3o"/>
+                                <constraint firstAttribute="trailing" secondItem="Df3-wI-LWD" secondAttribute="trailing" id="9SC-T1-Vcr"/>
+                                <constraint firstAttribute="bottom" secondItem="Df3-wI-LWD" secondAttribute="bottom" id="G7F-9Z-ETI"/>
+                                <constraint firstItem="Df3-wI-LWD" firstAttribute="top" secondItem="lRh-Lz-2XI" secondAttribute="top" id="XGt-MV-Rzn"/>
+                                <constraint firstAttribute="trailing" secondItem="Df3-wI-LWD" secondAttribute="trailing" id="lBS-21-gOz"/>
+                                <constraint firstItem="Df3-wI-LWD" firstAttribute="leading" secondItem="lRh-Lz-2XI" secondAttribute="leading" id="sUI-1k-utj"/>
+                            </constraints>
+                        </view>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="257" verticalHuggingPriority="257" horizontalCompressionResistancePriority="757" verticalCompressionResistancePriority="757" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WqH-ZS-T0r" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="90.5" width="375" height="309.5"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                     </subviews>
@@ -40,13 +77,14 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="BUr-vp-3CN" firstAttribute="bottom" secondItem="8O4-MD-Edx" secondAttribute="bottom" id="5Ck-7H-ckq"/>
-                <constraint firstItem="BUr-vp-3CN" firstAttribute="top" secondItem="8O4-MD-Edx" secondAttribute="top" id="bD0-xX-zgk"/>
-                <constraint firstItem="BUr-vp-3CN" firstAttribute="leading" secondItem="b3J-Yw-jeO" secondAttribute="leading" id="eM5-Sv-fCv"/>
-                <constraint firstItem="BUr-vp-3CN" firstAttribute="trailing" secondItem="b3J-Yw-jeO" secondAttribute="trailing" id="vM3-Zb-xYx"/>
+                <constraint firstItem="IF4-cX-OPH" firstAttribute="top" secondItem="hRz-mV-A9x" secondAttribute="top" id="MkS-nD-0Z3"/>
+                <constraint firstItem="IF4-cX-OPH" firstAttribute="trailing" secondItem="beP-y2-YR7" secondAttribute="trailing" id="OwA-Ra-9dL"/>
+                <constraint firstItem="IF4-cX-OPH" firstAttribute="bottom" secondItem="hRz-mV-A9x" secondAttribute="bottom" id="VQK-SK-PiH"/>
+                <constraint firstItem="IF4-cX-OPH" firstAttribute="leading" secondItem="beP-y2-YR7" secondAttribute="leading" id="XmN-eN-eJh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="8O4-MD-Edx"/>
+            <viewLayoutGuide key="safeArea" id="hRz-mV-A9x"/>
+            <point key="canvasLocation" x="-123.5" y="-113"/>
         </view>
     </objects>
 </document>

@@ -5,8 +5,6 @@
 //  Created by Giorgio Fiderio on 22/02/18.
 //
 
-import Foundation
-
 import UIKit
 
 extension NSObject {
@@ -21,14 +19,15 @@ public class ActionSheetItem: NSObject {
     public let title: String?
     public let image: UIImage?
     
-    var appearance: ActionSheetItemAppearance
+    open lazy var appearance: ActionSheetItemAppearance = {
+        return ActionSheetItemAppearance(copy: PresentrAppearance.standard.actionSheet.item)
+    }()
     
     private var delegate: ActionSheetItemProtocol!;
     
     internal init(title: String?, image: UIImage?) {
         self.title = title
         self.image = image
-        self.appearance = PresentrAppearance.standard.item
     }
     
     internal func setup(delegate: ActionSheetItemProtocol) {
@@ -44,7 +43,7 @@ public class ActionSheetItem: NSObject {
 
 protocol ActionSheetItemProtocol {
     
-    func applyAppearance(_ appearance: PresentrAppearance)
+    func applyAppearance(_ appearance: ActionSheetAppearance)
     func applyAppearance(to cell: MinHeightTableViewCell)
     func createCell(for tableView: UITableView) -> MinHeightTableViewCell
 }
