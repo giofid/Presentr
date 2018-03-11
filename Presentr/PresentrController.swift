@@ -230,7 +230,7 @@ extension PresentrController {
     // MARK: Presentation
     
     override var shouldPresentInFullscreen: Bool {
-        return false
+        return UIDevice.current.userInterfaceIdiom == .phone
     }
     
     override var frameOfPresentedViewInContainerView: CGRect {
@@ -355,17 +355,16 @@ fileprivate extension PresentrController {
         
         return size.width.calculateWidth(parentSize)
     }
-
+    
     func getHeightFromType(_ parentSize: CGSize) -> Float {
         guard let size = presentationType.size() else {
             if case .dynamic(let modalCenterPosition) = presentationType {
                 presentedViewController.view.layoutIfNeeded()
                 let height = presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
-//                if presentedViewController.view is AutoSizingView {
-//                    height = presentedViewController.view.intrinsicContentSize.height
-//                }
                 if case .bottom(let percentage, _) = modalCenterPosition {
                     return Float(min(parentSize.height * CGFloat(percentage), height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2)))
+                } else {
+                    return Float(min(height, height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2)))
                 }
              }
             return 0
