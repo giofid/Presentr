@@ -44,6 +44,14 @@ public class AlertViewController: UIViewController {
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public override var shouldAutorotate: Bool {
+        return presentingViewController?.shouldAutorotate ?? super.shouldAutorotate
+    }
+    
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return presentingViewController?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+    }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
