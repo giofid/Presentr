@@ -45,14 +45,14 @@
                                             <rect key="frame" x="0.0" y="25.5" width="375" height="0.0"/>
                                             <color key="backgroundColor" white="0.77885974702380945" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="0.5" id="EfK-Xk-QNh"/>
+                                                <constraint firstAttribute="height" priority="999" constant="0.5" id="EfK-Xk-QNh"/>
                                             </constraints>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="753" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="200" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A1E-9y-IFr" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="25.5" width="375" height="50"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="E4j-wM-hJC"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="50" id="E4j-wM-hJC"/>
                                             </constraints>
                                         </tableView>
                                     </subviews>
