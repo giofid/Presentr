@@ -35,7 +35,7 @@ extension ActionSheetTitle: ActionSheetItemProtocol {
     }
     
     func applyAppearance(_ appearance: ActionSheetAppearance) {
-        self.appearance = appearance.title
+        self.appearance.applyAppearance(appearance.title)
     }
     
     func applyAppearance(to cell: MinHeightTableViewCell) {

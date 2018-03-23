@@ -364,6 +364,21 @@ extension MainTableViewController {
         actionSheetController.addAction(ActionSheetAction(title: "action 5", image: nil, handler: { (action) in
             print("action 5")
         }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 6", image: nil, handler: { (action) in
+            print("action 6")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 7", image: nil, handler: { (action) in
+            print("action 7")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 8", image: nil, handler: { (action) in
+            print("action 8")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 9", image: nil, handler: { (action) in
+            print("action 9")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 10", image: nil, handler: { (action) in
+            print("action 10")
+        }))
         customPresent(actionSheetController, presentr: menuPresesenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
     }
     

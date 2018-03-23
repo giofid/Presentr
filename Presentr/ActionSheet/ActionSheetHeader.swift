@@ -64,6 +64,6 @@ extension ActionSheetHeader: ActionSheetItemProtocol {
     }
     
     func applyAppearance(_ appearance: ActionSheetAppearance) {
-        self.appearance = appearance.header
+        self.appearance.applyAppearance(appearance.header)
     }
 }

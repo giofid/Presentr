@@ -23,7 +23,7 @@ public class ActionSheetItem: NSObject {
         return ActionSheetItemAppearance(copy: PresentrAppearance.standard.actionSheet.item)
     }()
     
-    private var delegate: ActionSheetItemProtocol!;
+    private weak var delegate: ActionSheetItemProtocol!;
     
     internal init(title: String?, image: UIImage?) {
         self.title = title
@@ -41,7 +41,7 @@ public class ActionSheetItem: NSObject {
     }
 }
 
-protocol ActionSheetItemProtocol {
+protocol ActionSheetItemProtocol: NSObjectProtocol {
     
     func applyAppearance(_ appearance: ActionSheetAppearance)
     func applyAppearance(to cell: MinHeightTableViewCell)

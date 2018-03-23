@@ -139,7 +139,22 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
     private func setupDismissOnSwipe() {
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(presentedViewSwipe))
+        swipe.delegate = self
         presentedViewController.view.addGestureRecognizer(swipe)
+        addPanGestureToScrollableSubviews(of: presentedViewController.view)
+    }
+    
+    private func addPanGestureToScrollableSubviews(of view: UIView) {
+        let subviews = view.subviews
+        for v in subviews {
+            if v is UIScrollView {
+                let panGesture = UIPanGestureRecognizer()
+                panGesture.delegate = self
+                v.addGestureRecognizer(panGesture)
+                continue
+            }
+            addPanGestureToScrollableSubviews(of: v)
+        }
     }
     
     private func setupBackground(_ backgroundColor: UIColor, backgroundOpacity: Float, blurBackground: Bool, blurStyle: UIBlurEffectStyle) {
@@ -505,5 +520,42 @@ extension PresentrController {
             keyboardIsShowing = false
         }
     }
+}
 
+extension PresentrController: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+        guard let view = pan.view as? UIScrollView else { return true }
+        let point = pan.location(ofTouch: 0, in: view)
+        let velocity = pan.velocity(in: view)
+        let directionDown = pan.translation(in: view).y > 0
+        guard (shouldSwipeBottom && directionDown) || (shouldSwipeTop && !directionDown) else {
+            return false
+        }
+        if view.bounds.contains(point) && velocity.y > 0.0 && velocity.x / velocity.y < 5.0 && view.contentOffset == .zero {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer, pan.numberOfTouches > 0 else { return false }
+        guard let _ = gestureRecognizer.view as? UIScrollView else {
+            guard let otherView = otherGestureRecognizer.view as? UIScrollView else { return false }
+            let point = pan.location(ofTouch: 0, in: otherView)
+            let velocity = pan.velocity(in: otherView)
+            let directionDown = pan.translation(in: otherView).y > 0
+            guard (shouldSwipeBottom && directionDown) || (shouldSwipeTop && !directionDown) else {
+                return false
+            }
+            if otherView.bounds.contains(point) && velocity.y > 0.0 && velocity.x / velocity.y < 5.0 && otherView.contentOffset == .zero {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
+    }
 }
