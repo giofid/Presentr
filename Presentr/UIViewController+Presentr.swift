@@ -47,6 +47,8 @@ extension UIViewController: PropertyStoring {
             presenter.appearance.roundCorners = true
             presenter.appearance.cornerRadius = 6
             presenter.appearance.actionSheet.item.textAlignment = .center
+            presenter.appearance.actionSheet.title.textAlignment = .center
+            presenter.appearance.actionSheet.item.shouldShowSeparator = true
             return presenter
         }()
         

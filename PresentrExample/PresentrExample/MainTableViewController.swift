@@ -384,21 +384,21 @@ extension MainTableViewController {
     
     @objc func actionSheetDefault() {
         let actionSheetController = ActionSheetController(title: "Are you sure?", message: "This action can't be undone!", cancelAction: ActionSheetAction(title: "Cancel", image: nil, handler: nil))
-        let appearance = actionSheetController.appearance
-        appearance.item.shouldShowSeparator = true
-        appearance.item.separatorInsets = .zero
-        appearance.item.textAlignment = .center
-        appearance.title.textAlignment = .center
-        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
-        appearance.item.font = UIFont.preferredFont(forTextStyle: .caption2)
-        appearance.title.messageTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+//        let appearance = actionSheetController.appearance
+//        appearance.item.shouldShowSeparator = true
+//        appearance.item.separatorInsets = .zero
+//        appearance.item.textAlignment = .center
+//        appearance.title.textAlignment = .center
+//        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+//        appearance.item.font = UIFont.preferredFont(forTextStyle: .caption2)
+//        appearance.title.messageTextFont = UIFont.preferredFont(forTextStyle: .caption2)
         actionSheetController.addAction(ActionSheetAction(title: "action 1", image: nil, handler: { (action) in
             print("action 1")
         }))
         actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
             print("action 2")
         }))
-        customPresent(actionSheetController, presentr: actionSheetPresenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+        customPresent(actionSheetController, presentr: actionSheetPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
     }
     
     @objc func alertDefault() {
