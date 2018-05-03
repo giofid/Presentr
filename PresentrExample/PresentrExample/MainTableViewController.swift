@@ -165,7 +165,7 @@ class MainTableViewController: UITableViewController {
         return presenter
     }()
     
-    let actionSheetPresesenter: Presentr = {
+    let actionSheetPresenter: Presentr = {
         let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: true)
         let presentationType = PresentationType.dynamic(center: center)
         
@@ -398,7 +398,7 @@ extension MainTableViewController {
         actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
             print("action 2")
         }))
-        customPresent(actionSheetController, presentr: actionSheetPresesenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+        customPresent(actionSheetController, presentr: actionSheetPresenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
     }
     
     @objc func alertDefault() {
