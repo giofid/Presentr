@@ -12,7 +12,16 @@ public class AlertAction {
     
     public let title: String
     public let style: AlertActionStyle
-    public let handler: AlertActionHandler?
+    public var isEnabled: Bool = true {
+        didSet {
+            button?.isEnabled = isEnabled
+        }
+    }
+    public var autoDismiss: Bool = true
+    
+    let handler: AlertActionHandler?
+    
+    internal weak var button: UIButton?
     
     /**
      Initialized an 'AlertAction'
@@ -28,7 +37,6 @@ public class AlertAction {
         self.style = style
         self.handler = handler
     }
-    
 }
 
 /**

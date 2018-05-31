@@ -53,7 +53,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
     fileprivate var shouldObserveKeyboard: Bool {
         return conformingPresentedController != nil ||
-            (keyboardTranslationType != .none && presentationType == .popup) // TODO: Work w/other types?
+            (keyboardTranslationType != .none/* && presentationType == .popup*/) // TODO: Work w/other types?
     }
 
     fileprivate var containerFrame: CGRect {
@@ -275,10 +275,10 @@ extension PresentrController {
     }
     
     override func containerViewWillLayoutSubviews() {
+        chromeView.frame = containerFrame
         guard !keyboardIsShowing else {
             return // prevent resetting of presented frame when the frame is being translated
         }
-        chromeView.frame = containerFrame
         presentedView!.frame = frameOfPresentedViewInContainerView
     }
     

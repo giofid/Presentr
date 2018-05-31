@@ -23,7 +23,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="beP-y2-YR7" customClass="AutoSizingView" customModule="Presentr" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="beP-y2-YR7">
             <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -31,25 +31,25 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lRh-Lz-2XI" customClass="AutoSizingView" customModule="Presentr" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="75.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Df3-wI-LWD" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="75.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                     <subviews>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="253" verticalCompressionResistancePriority="755" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="128" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a3B-3C-EGM" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="25.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </tableView>
                                         <view contentMode="scaleToFill" verticalHuggingPriority="254" verticalCompressionResistancePriority="756" translatesAutoresizingMaskIntoConstraints="NO" id="lIP-gD-hQm" customClass="SeparatorView" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="25.5" width="375" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                                             <color key="backgroundColor" white="0.77885974702380945" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="999" constant="0.5" id="EfK-Xk-QNh"/>
                                             </constraints>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="753" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="200" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A1E-9y-IFr" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="25.5" width="375" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="999" constant="50" id="E4j-wM-hJC"/>
@@ -69,7 +69,7 @@
                             </constraints>
                         </view>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="257" verticalHuggingPriority="257" horizontalCompressionResistancePriority="757" verticalCompressionResistancePriority="757" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WqH-ZS-T0r" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="90.5" width="375" height="309.5"/>
+                            <rect key="frame" x="0.0" y="65" width="375" height="335"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tableView>
                     </subviews>

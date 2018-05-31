@@ -27,11 +27,11 @@ enum ExampleSection {
     var items: [ExampleItem] {
         switch self {
         case .uikit:
-            return [.alert, .actionSheet]
+            return [.alert, .uiAlertWithTextField, .actionSheet]
         case .actionsheet:
             return [.menuDefault, .actionSheetDefault]
         case .alert:
-            return [.alertDefault, .alertCustom, .alertWithout]
+            return [.alertDefault, .alertWithTextField, .alertCustom, .alertWithout]
         case .popup:
             return [.popupDefault, .popupCustom]
         case .topHalf:
@@ -50,12 +50,14 @@ enum ExampleSection {
 enum ExampleItem: String {
 
     case alert = "UIKit default alert"
+    case uiAlertWithTextField = "UIKit alert with text field"
     case actionSheet = "UIKit default actionSheet"
     
     case menuDefault = "Menù with default animation"
     case actionSheetDefault = "Actionsheet with default animation"
     
     case alertDefault = "Alert with default animation"
+    case alertWithTextField = "Alert with text field"
     case alertCustom = "Alert with custom animation"
     case alertWithout = "Alert without animation"
 
@@ -84,6 +86,8 @@ enum ExampleItem: String {
         switch self {
         case .alert:
             return #selector(MainTableViewController.uikitAlert)
+        case .uiAlertWithTextField:
+            return #selector(MainTableViewController.uikitAlertWithTextField)
         case .actionSheet:
             return #selector(MainTableViewController.uikitActionSheet)
             
@@ -93,6 +97,8 @@ enum ExampleItem: String {
             return #selector(MainTableViewController.actionSheetDefault)
         case .alertDefault:
             return #selector(MainTableViewController.alertDefault)
+        case .alertWithTextField:
+            return #selector(MainTableViewController.alertWithTextField)
         case .alertCustom:
             return #selector(MainTableViewController.alertCustom)
         case .alertWithout:
@@ -121,8 +127,7 @@ enum ExampleItem: String {
             return #selector(MainTableViewController.keyboardTranslationTest)
         case .customBackground:
             return #selector(MainTableViewController.customBackgroundPresentation)
-
-
+            
         case .custom:
             return #selector(MainTableViewController.customPresentation)
         case .customAnimation:
@@ -238,8 +243,38 @@ class MainTableViewController: UITableViewController {
             print("CANCEL!!")
         }
         let okAction = AlertAction(title: "DO IT!", style: .destructive) { alert in
+            alertController.showError(message: "ciao")
             print("OK!!")
         }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        return alertController
+    }()
+    
+    lazy var alertWithTextFieldController: AlertViewController = {
+        let alertController = AlertViewController(title: "Nuova cartella", body: " ")
+        let appearance = alertController.appearance
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.button.textColor = .darkGray
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.textColor = .darkGray
+        let cancelAction = AlertAction(title: "NO, SORRY!", style: .default) { alert in
+            print("CANCEL!!")
+        }
+//        cancelAction.isEnabled = false
+        let okAction = AlertAction(title: "DO IT!", style: .destructive) { alert in
+            alertController.showError(message: "ciao")
+            print("OK!!")
+        }
+        okAction.autoDismiss = false
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "This's a placeholder"
+        })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         return alertController
@@ -319,6 +354,32 @@ extension MainTableViewController {
         }
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func uikitAlertWithTextField() {
+        let alertController = UIAlertController(title: "Are you sure?", message: "", preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        let okAction = UIAlertAction(title: "DO IT!", style: .cancel) { alert in
+            print("OK!!")
+        }
+        let ok2Action = UIAlertAction(title: "DO IT!", style: .default) { alert in
+            print("OK!!")
+        }
+        let ok3Action = UIAlertAction(title: "DO IT!", style: .default) { alert in
+            print("OK!!")
+        }
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Nome della cartella"
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.addAction(ok2Action)
+        alertController.addAction(ok3Action)
         alertController.popoverPresentationController?.sourceView = self.view
         alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
         self.present(alertController, animated: true, completion: nil)
@@ -408,6 +469,16 @@ extension MainTableViewController {
         presenter.dismissOnSwipe = false
         presenter.dismissOnTap = false
         customPresent(alertController, presentr: presenter, animated: true)
+    }
+    
+    @objc func alertWithTextField() {
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
+        presenter.keyboardTranslationType = .stickToTop
+        customPresent(alertWithTextFieldController, presentr: presenter, animated: true)
     }
 
     @objc func alertCustom() {
