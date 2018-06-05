@@ -18,9 +18,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertViewController" customModule="Presentr" customModuleProvider="target">
             <connections>
                 <outlet property="bodyLabel" destination="ove-a7-stQ" id="Uik-iA-a20"/>
+                <outlet property="customViewsStackView" destination="4oo-uq-Xlm" id="wFY-8R-gNu"/>
                 <outlet property="firstButton" destination="9eF-eF-HUl" id="t1o-3B-59s"/>
                 <outlet property="secondButton" destination="5do-eX-DIi" id="PC9-j3-lP9"/>
-                <outlet property="textFieldsStackView" destination="4oo-uq-Xlm" id="wFY-8R-gNu"/>
                 <outlet property="titleLabel" destination="zgY-w8-KOt" id="Nol-ew-dbT"/>
                 <outlet property="view" destination="gfG-Tf-8O1" id="N8Q-RR-f3J"/>
             </connections>

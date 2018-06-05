@@ -31,7 +31,7 @@ enum ExampleSection {
         case .actionsheet:
             return [.menuDefault, .actionSheetDefault]
         case .alert:
-            return [.alertDefault, .alertWithTextField, .alertCustom, .alertWithout]
+            return [.alertDefault, .alertWithTextField, .alertWithActivityIndicator, .alertCustom, .alertWithout]
         case .popup:
             return [.popupDefault, .popupCustom]
         case .topHalf:
@@ -58,6 +58,7 @@ enum ExampleItem: String {
     
     case alertDefault = "Alert with default animation"
     case alertWithTextField = "Alert with text field"
+    case alertWithActivityIndicator = "Alert with activity indicator"
     case alertCustom = "Alert with custom animation"
     case alertWithout = "Alert without animation"
 
@@ -99,6 +100,8 @@ enum ExampleItem: String {
             return #selector(MainTableViewController.alertDefault)
         case .alertWithTextField:
             return #selector(MainTableViewController.alertWithTextField)
+        case .alertWithActivityIndicator:
+            return #selector(MainTableViewController.alertWithActivityIndicator)
         case .alertCustom:
             return #selector(MainTableViewController.alertCustom)
         case .alertWithout:
@@ -252,7 +255,7 @@ class MainTableViewController: UITableViewController {
     }()
     
     lazy var alertWithTextFieldController: AlertViewController = {
-        let alertController = AlertViewController(title: "Nuova cartella", body: " ")
+        let alertController = AlertViewController(title: "Inserisci le credenziali che hai ricevuto per email e per SMS", body: nil)
         let appearance = alertController.appearance
         appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
         appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
@@ -275,8 +278,32 @@ class MainTableViewController: UITableViewController {
         alertController.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "This's a placeholder"
         })
+//        alertController.addTextField(configurationHandler: { (textField) in
+//            textField.placeholder = "This's another placeholder"
+//        })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
+        return alertController
+    }()
+    
+    lazy var alertWithActivityIndicatorController: AlertViewController = {
+        let alertController = AlertViewController(title: nil, body: "Verifica in corso...", style: .activityIndicator)
+        let appearance = alertController.appearance
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.activityIndicator.color = .purple
+        appearance.activityIndicator.type = .circleStrokeSpin
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.button.textColor = .darkGray
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.textColor = .darkGray
+        let cancelAction = AlertAction(title: "Annulla", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        alertController.addAction(cancelAction)
         return alertController
     }()
 
@@ -479,6 +506,16 @@ extension MainTableViewController {
         presenter.dismissOnTap = false
         presenter.keyboardTranslationType = .stickToTop
         customPresent(alertWithTextFieldController, presentr: presenter, animated: true)
+    }
+    
+    @objc func alertWithActivityIndicator() {
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
+        presenter.appearance.alert.activityIndicator.type = .ballClipRotate
+        customPresent(alertWithActivityIndicatorController, presentr: presenter, animated: true)
     }
 
     @objc func alertCustom() {

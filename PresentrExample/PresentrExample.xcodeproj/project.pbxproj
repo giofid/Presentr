@@ -143,7 +143,6 @@
 				06A1F0AE1CF3D17E0057C79B /* Resources */,
 				06BBD0471D383B80003436EB /* Embed Frameworks */,
 				C131AD3CBD45F77182DA96B9 /* [CP] Embed Pods Frameworks */,
-				A8A0609D0B0400895B93CDF3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -204,21 +203,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A8A0609D0B0400895B93CDF3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PresentrExample/Pods-PresentrExample-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C131AD3CBD45F77182DA96B9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -226,10 +210,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-PresentrExample/Pods-PresentrExample-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

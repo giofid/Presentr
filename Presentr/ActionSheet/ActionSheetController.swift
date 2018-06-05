@@ -122,7 +122,7 @@ public class ActionSheetController: UIViewController {
         return handler
     }()
     
-    public init(header: ActionSheetHeader? = nil, inheritedAppearance: ActionSheetAppearance? = nil) {
+    public init(header: ActionSheetHeader? = nil) {
         self.header = header
         self.actionSheetTitle = nil
         self.cancel = nil

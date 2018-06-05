@@ -7,6 +7,12 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
+
+public enum AlertViewStyle {
+    case `default`
+    case activityIndicator
+}
 
 /// UIViewController subclass that displays the alert
 public class AlertViewController: UIViewController {
@@ -29,22 +35,24 @@ public class AlertViewController: UIViewController {
     fileprivate var actions = [AlertAction]()
     
     private let isBodyEmpty: Bool
+    
+    private var style: AlertViewStyle
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var firstButton: UIButton!
     @IBOutlet weak var secondButton: UIButton!
-    @IBOutlet weak var firstButtonWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var textFieldsStackView: UIStackView!
+    @IBOutlet weak var customViewsStackView: UIStackView!
     
     open lazy var appearance: AlertAppearance = {
         return AlertAppearance(copy: PresentrAppearance.standard.alert)
     }()
 
-    public init(title: String, body: String) {
+    public init(title: String?, body: String?, style: AlertViewStyle = .default) {
         self.titleText = title
         self.bodyText = body
-        self.isBodyEmpty = body.trimmingCharacters(in: .whitespaces).isEmpty
+        self.isBodyEmpty = body?.trimmingCharacters(in: .whitespaces).isEmpty ?? true
+        self.style = style
         super.init(nibName: "AlertViewController", bundle: Bundle(for: AlertViewController.self))
     }
     
@@ -70,6 +78,10 @@ public class AlertViewController: UIViewController {
         
         self.view.backgroundColor = appearance.backgroundColor
 
+        if style == .activityIndicator {
+            setupActivityIndicatorView()
+        }
+        
         setupTextField()
         setupLabels()
         setupButtons()
@@ -99,9 +111,13 @@ public class AlertViewController: UIViewController {
     }
 
     public func addTextField(configurationHandler: ((UITextField) -> Void)? = nil) {
+        assert(style == .default, "Text fields can only be added to an alert view controller of style .default")
         let textField = PaddingUITextField()
         textField.leftInset = 12
         textField.rightInset = 12
+        if bodyText?.isEmpty ?? true {
+            bodyText = " "
+        }
         configurationHandler?(textField)
         textFields.append(textField)
     }
@@ -115,6 +131,14 @@ public class AlertViewController: UIViewController {
     
     // MARK: Setup
 
+    fileprivate func setupActivityIndicatorView() {
+        let activityIndicator = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+        activityIndicator.type = appearance.activityIndicator.type
+        activityIndicator.color = appearance.activityIndicator.color
+        customViewsStackView.addArrangedSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    
     fileprivate func setupTextField() {
         for textField in textFields {
             textField.font = appearance.body.font
@@ -126,17 +150,26 @@ public class AlertViewController: UIViewController {
             textField.delegate = self
             textField.returnKeyType = .done
             textField.autocorrectionType = .no
-            textFieldsStackView.addArrangedSubview(textField)
+            customViewsStackView.addArrangedSubview(textField)
         }
     }
     
     fileprivate func setupLabels() {
-        titleLabel.font = appearance.title.font
-        titleLabel.textColor = appearance.title.textColor
-        titleLabel.text = titleText
-        bodyLabel.font = appearance.body.font
-        bodyLabel.textColor = appearance.body.textColor
-        bodyLabel.text = bodyText
+        if let titleText = titleText {
+            titleLabel.font = appearance.title.font
+            titleLabel.textColor = appearance.title.textColor
+            titleLabel.text = titleText
+        } else {
+            titleLabel.removeFromSuperview()
+        }
+        if let bodyText = bodyText {
+            bodyLabel.font = appearance.body.font
+            bodyLabel.textColor = appearance.body.textColor
+            bodyLabel.text = bodyText
+        } else {
+            bodyLabel.removeFromSuperview()
+        }
+        
     }
 
     fileprivate func setupButtons() {

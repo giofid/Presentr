@@ -19,6 +19,7 @@ open class AlertAppearance {
         item = copy.item
         title = copy.title
         body = copy.body
+        activityIndicator = copy.activityIndicator
         button = copy.button
         defaultButton = copy.defaultButton
     }
@@ -29,6 +30,7 @@ open class AlertAppearance {
         item.applyAppearance(appearance.item)
         title.applyAppearance(appearance.title)
         body.applyAppearance(appearance.body)
+        activityIndicator.applyAppearance(appearance.activityIndicator)
         button.applyAppearance(appearance.button)
         defaultButton.applyAppearance(appearance.defaultButton)
     }
@@ -56,6 +58,10 @@ open class AlertAppearance {
     
     public lazy var body: AlertBodyAppearance = {
         return AlertBodyAppearance(copy: item)
+    }()
+    
+    public lazy var activityIndicator: AlertActivityIndicatorAppearance = {
+        return AlertActivityIndicatorAppearance()
     }()
     
     public lazy var button: AlertButtonItemAppearance = {
