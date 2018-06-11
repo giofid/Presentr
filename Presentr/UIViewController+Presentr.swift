@@ -61,6 +61,7 @@ extension UIViewController: PropertyStoring {
             presenter.appearance.contentInset = 15
             presenter.appearance.roundCorners = true
             presenter.appearance.cornerRadius = 6
+            presenter.keyboardTranslationType = .stickToTop
             return presenter
         }()
     }

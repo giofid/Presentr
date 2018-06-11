@@ -504,7 +504,6 @@ extension MainTableViewController {
         presenter.dismissTransitionType = .crossDissolve
         presenter.dismissOnSwipe = false
         presenter.dismissOnTap = false
-        presenter.keyboardTranslationType = .stickToTop
         customPresent(alertWithTextFieldController, presentr: presenter, animated: true)
     }
     
