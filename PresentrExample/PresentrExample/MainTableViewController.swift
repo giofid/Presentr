@@ -277,6 +277,7 @@ class MainTableViewController: UITableViewController {
         okAction.autoDismiss = false
         alertController.addTextField(configurationHandler: { (textField) in
             textField.placeholder = "This's a placeholder"
+            textField.delegate = self
         })
 //        alertController.addTextField(configurationHandler: { (textField) in
 //            textField.placeholder = "This's another placeholder"
@@ -387,7 +388,7 @@ extension MainTableViewController {
     }
     
     @objc func uikitAlertWithTextField() {
-        let alertController = UIAlertController(title: "Are you sure?", message: "", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "Are you sure?", message: "", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
             print("CANCEL!!")
         }
@@ -402,11 +403,16 @@ extension MainTableViewController {
         }
         alertController.addTextField { (textField) in
             textField.placeholder = "Nome della cartella"
+            textField.delegate = self
         }
-        alertController.addAction(cancelAction)
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Nome della cartella"
+            textField.delegate = self
+        }
+//        alertController.addAction(cancelAction)
         alertController.addAction(okAction)
-        alertController.addAction(ok2Action)
-        alertController.addAction(ok3Action)
+//        alertController.addAction(ok2Action)
+//        alertController.addAction(ok3Action)
         alertController.popoverPresentationController?.sourceView = self.view
         alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
         self.present(alertController, animated: true, completion: nil)
@@ -495,6 +501,7 @@ extension MainTableViewController {
         presenter.dismissTransitionType = .crossDissolve
         presenter.dismissOnSwipe = false
         presenter.dismissOnTap = false
+        presenter.appearance.alert.button.minimumScaleFactor = 0.5
         customPresent(alertController, presentr: presenter, animated: true)
     }
     
@@ -655,5 +662,12 @@ extension MainTableViewController {
     @objc func currentContext() {
         let splitVC = storyboard!.instantiateViewController(withIdentifier: "SplitViewController")
         navigationController?.pushViewController(splitVC, animated: true)
+    }
+}
+
+extension MainTableViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("called")
+        return true
     }
 }

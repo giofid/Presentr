@@ -147,7 +147,7 @@ public class AlertViewController: UIViewController {
             textField.borderWidth = 0.5
             textField.backgroundColor = .white
             textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
-            textField.delegate = self
+//            textField.delegate = self
             textField.returnKeyType = .done
             textField.autocorrectionType = .no
             customViewsStackView.addArrangedSubview(textField)
@@ -195,16 +195,25 @@ public class AlertViewController: UIViewController {
             toButton.setTitleColor(appearance.defaultButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.defaultButton.font
             toButton.backgroundColor = appearance.defaultButton.backgroundColor
+            if let minimumScaleFactor = appearance.defaultButton.minimumScaleFactor {
+                toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
+            }
         case .cancel:
             toButton.setTitleColor(appearance.button.textColor, for: UIControlState())
-            toButton.setTitleColor(appearance.defaultButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
+            toButton.setTitleColor(appearance.button.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.button.font
             toButton.backgroundColor = appearance.button.backgroundColor
+            if let minimumScaleFactor = appearance.button.minimumScaleFactor {
+                toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
+            }
         case .destructive:
             toButton.setTitleColor(appearance.button.textColor, for: UIControlState())
-            toButton.setTitleColor(appearance.defaultButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
+            toButton.setTitleColor(appearance.button.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.button.font
             toButton.backgroundColor = appearance.button.backgroundColor
+            if let minimumScaleFactor = appearance.button.minimumScaleFactor {
+                toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
+            }
         }
         action.button = toButton
     }
@@ -235,9 +244,9 @@ public class AlertViewController: UIViewController {
     }
 }
 
-extension AlertViewController: UITextFieldDelegate {
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-}
+//extension AlertViewController: UITextFieldDelegate {
+//    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        return true
+//    }
+//}

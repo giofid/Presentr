@@ -13,6 +13,7 @@ open class AlertButtonItemAppearance: AlertItemAppearance {
         super.init(copy: copy)
         if let copy = copy as? AlertButtonItemAppearance {
             self.inheritedBackgroundColor = copy.backgroundColor
+            self.inheritedMinimumScaleFactor = copy.minimumScaleFactor
         }
     }
     
@@ -20,6 +21,7 @@ open class AlertButtonItemAppearance: AlertItemAppearance {
         super.applyAppearance(appearance)
         if let appearance = appearance as? AlertButtonItemAppearance {
             self.inheritedBackgroundColor = appearance.backgroundColor
+            self.inheritedMinimumScaleFactor = appearance.minimumScaleFactor
         }
     }
     
@@ -31,6 +33,17 @@ open class AlertButtonItemAppearance: AlertItemAppearance {
         }
         set {
             customBackgroundColor = newValue
+        }
+    }
+    
+    private var customMinimumScaleFactor: CGFloat?
+    private var inheritedMinimumScaleFactor: CGFloat?
+    public var minimumScaleFactor: CGFloat? {
+        get {
+            return customMinimumScaleFactor ?? inheritedMinimumScaleFactor
+        }
+        set {
+            customMinimumScaleFactor = newValue
         }
     }
 }
