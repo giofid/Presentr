@@ -279,9 +279,9 @@ class MainTableViewController: UITableViewController {
             textField.placeholder = "This's a placeholder"
             textField.delegate = self
         })
-//        alertController.addTextField(configurationHandler: { (textField) in
-//            textField.placeholder = "This's another placeholder"
-//        })
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "This's another placeholder"
+        })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         return alertController
@@ -409,10 +409,10 @@ extension MainTableViewController {
             textField.placeholder = "Nome della cartella"
             textField.delegate = self
         }
-//        alertController.addAction(cancelAction)
+        alertController.addAction(cancelAction)
         alertController.addAction(okAction)
-//        alertController.addAction(ok2Action)
-//        alertController.addAction(ok3Action)
+        alertController.addAction(ok2Action)
+        alertController.addAction(ok3Action)
         alertController.popoverPresentationController?.sourceView = self.view
         alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
         self.present(alertController, animated: true, completion: nil)
@@ -511,7 +511,7 @@ extension MainTableViewController {
         presenter.dismissTransitionType = .crossDissolve
         presenter.dismissOnSwipe = false
         presenter.dismissOnTap = false
-        customPresent(alertWithTextFieldController, presentr: presenter, animated: true)
+        customPresent(alertWithTextFieldController, presentr: alertPresentr, animated: true)
     }
     
     @objc func alertWithActivityIndicator() {
@@ -667,7 +667,7 @@ extension MainTableViewController {
 
 extension MainTableViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print("called")
+        print(textField.delegate!)
         return true
     }
 }

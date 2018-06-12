@@ -140,16 +140,22 @@ public class AlertViewController: UIViewController {
     }
     
     fileprivate func setupTextField() {
-        for textField in textFields {
+        for i in 0 ..< textFields.count {
+            let textField = textFields[i]
             textField.font = appearance.body.font
             textField.textColor = appearance.body.textColor
             textField.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1)
             textField.borderWidth = 0.5
             textField.backgroundColor = .white
             textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
-//            textField.delegate = self
-            textField.returnKeyType = .done
             textField.autocorrectionType = .no
+            if textField === textFields.last {
+                textField.returnKeyType = .done
+                textField.addTarget(textField, action: #selector(UIResponder.resignFirstResponder), for: .editingDidEndOnExit)
+            } else {
+                textField.returnKeyType = .next
+                textField.addTarget(textFields[i+1], action: #selector(UIResponder.becomeFirstResponder), for: .editingDidEndOnExit)
+            }
             customViewsStackView.addArrangedSubview(textField)
         }
     }
@@ -235,7 +241,7 @@ public class AlertViewController: UIViewController {
             handler(secondAction)
         }
     }
-
+    
     // MARK: Helper's
 
     private func dismiss(action: AlertAction) {
@@ -243,10 +249,3 @@ public class AlertViewController: UIViewController {
         self.dismiss(animated: dismissAnimated, completion: nil)
     }
 }
-
-//extension AlertViewController: UITextFieldDelegate {
-//    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        return true
-//    }
-//}
