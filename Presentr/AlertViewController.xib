@@ -9,17 +9,14 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Montserrat-Regular.ttf">
-            <string>Montserrat-Regular</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AlertViewController" customModule="Presentr" customModuleProvider="target">
             <connections>
+                <outlet property="actionsStackView" destination="19q-e8-oQq" id="Ebr-mG-1wn"/>
                 <outlet property="bodyLabel" destination="ove-a7-stQ" id="Uik-iA-a20"/>
                 <outlet property="customViewsStackView" destination="4oo-uq-Xlm" id="wFY-8R-gNu"/>
                 <outlet property="firstButton" destination="9eF-eF-HUl" id="t1o-3B-59s"/>
+                <outlet property="firstButtonHeightConstraint" destination="M7l-CB-AlN" id="uK7-1e-qZK"/>
                 <outlet property="secondButton" destination="5do-eX-DIi" id="PC9-j3-lP9"/>
                 <outlet property="titleLabel" destination="zgY-w8-KOt" id="Nol-ew-dbT"/>
                 <outlet property="view" destination="gfG-Tf-8O1" id="N8Q-RR-f3J"/>
@@ -37,36 +34,36 @@
                             <rect key="frame" x="0.0" y="0.0" width="270" height="134.5"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="FDW-Yi-xBz" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="24" width="270" height="82.5"/>
+                                    <rect key="frame" x="0.0" y="24" width="270" height="62.5"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Are you sure?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="zgY-w8-KOt" customClass="PaddingLabel" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="270" height="30.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Are you sure?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="230" translatesAutoresizingMaskIntoConstraints="NO" id="zgY-w8-KOt" customClass="PaddingLabel" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="270" height="20.5"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                                    <real key="value" value="12"/>
+                                                    <real key="value" value="20"/>
                                                 </userDefinedRuntimeAttribute>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                                    <real key="value" value="12"/>
+                                                    <real key="value" value="20"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="270" placeholderIntrinsicHeight="0.0" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4oo-uq-Xlm">
-                                            <rect key="frame" x="0.0" y="42.5" width="270" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="32.5" width="270" height="0.0"/>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="748" text="This action can't be undone." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="ove-a7-stQ" customClass="PaddingLabel" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="54.5" width="270" height="28"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="248" verticalHuggingPriority="248" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="748" text="This action can't be undone." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="230" translatesAutoresizingMaskIntoConstraints="NO" id="ove-a7-stQ" customClass="PaddingLabel" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="44.5" width="270" height="18"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <color key="textColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="leftInset">
-                                                    <real key="value" value="12"/>
+                                                    <real key="value" value="20"/>
                                                 </userDefinedRuntimeAttribute>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="rightInset">
-                                                    <real key="value" value="12"/>
+                                                    <real key="value" value="20"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </label>
@@ -84,35 +81,31 @@
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="19q-e8-oQq" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="134.5" width="270" height="52.5"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eF-eF-HUl">
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eF-eF-HUl">
                                     <rect key="frame" x="0.0" y="0.0" width="133.5" height="52.5"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52.5" id="M7l-CB-AlN"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
-                                    <state key="normal" title="NO, SORRY 🕶">
-                                        <color key="titleColor" red="0.2274509804" green="0.83529411760000005" blue="0.35686274509999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </state>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <state key="normal" title="NO, SORRY 🕶"/>
                                     <connections>
                                         <action selector="didSelectFirstAction:" destination="-1" eventType="touchUpInside" id="Ais-DD-WnP"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5do-eX-DIi">
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5do-eX-DIi">
                                     <rect key="frame" x="136.5" y="0.0" width="133.5" height="52.5"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52.5" id="Bv9-Ex-nrr"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
-                                    <state key="normal" title="YES, PLEASE ☹️">
-                                        <color key="titleColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </state>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <state key="normal" title="YES, PLEASE ☹️"/>
                                     <connections>
                                         <action selector="didSelectSecondAction:" destination="-1" eventType="touchUpInside" id="KlS-Ts-crz"/>
                                     </connections>
                                 </button>
                             </subviews>
+                            <constraints>
+                                <constraint firstItem="5do-eX-DIi" firstAttribute="height" secondItem="9eF-eF-HUl" secondAttribute="height" id="4g4-7y-B6p"/>
+                            </constraints>
                         </stackView>
                     </subviews>
                     <constraints>

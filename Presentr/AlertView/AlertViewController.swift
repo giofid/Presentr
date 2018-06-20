@@ -43,6 +43,8 @@ public class AlertViewController: UIViewController {
     @IBOutlet weak var firstButton: UIButton!
     @IBOutlet weak var secondButton: UIButton!
     @IBOutlet weak var customViewsStackView: UIStackView!
+    @IBOutlet weak var actionsStackView: UIStackView!
+    @IBOutlet weak var firstButtonHeightConstraint: NSLayoutConstraint!
     
     open lazy var appearance: AlertAppearance = {
         return AlertAppearance(copy: PresentrAppearance.standard.alert)
@@ -78,13 +80,14 @@ public class AlertViewController: UIViewController {
         
         self.view.backgroundColor = appearance.backgroundColor
 
-        if style == .activityIndicator {
-            setupActivityIndicatorView()
-        }
         
-        setupTextField()
+        setupCustomViewsStackView()
         setupLabels()
         setupButtons()
+        
+        if customViewsStackView.arrangedSubviews.isEmpty {
+            customViewsStackView.removeFromSuperview()
+        }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -131,32 +134,43 @@ public class AlertViewController: UIViewController {
     
     // MARK: Setup
 
-    fileprivate func setupActivityIndicatorView() {
-        let activityIndicator = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
-        activityIndicator.type = appearance.activityIndicator.type
-        activityIndicator.color = appearance.activityIndicator.color
-        customViewsStackView.addArrangedSubview(activityIndicator)
-        activityIndicator.startAnimating()
-    }
-    
-    fileprivate func setupTextField() {
-        for i in 0 ..< textFields.count {
-            let textField = textFields[i]
-            textField.font = appearance.body.font
-            textField.textColor = appearance.body.textColor
-            textField.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1)
-            textField.borderWidth = 0.5
-            textField.backgroundColor = .white
-            textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
-            textField.autocorrectionType = .no
-            if textField === textFields.last {
-                textField.returnKeyType = .done
-                textField.addTarget(textField, action: #selector(UIResponder.resignFirstResponder), for: .editingDidEndOnExit)
-            } else {
-                textField.returnKeyType = .next
-                textField.addTarget(textFields[i+1], action: #selector(UIResponder.becomeFirstResponder), for: .editingDidEndOnExit)
+    fileprivate func setupCustomViewsStackView() {
+        
+        func setupActivityIndicatorView() {
+            let activityIndicator = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+            activityIndicator.type = appearance.activityIndicator.type
+            activityIndicator.color = appearance.activityIndicator.color
+            customViewsStackView.addArrangedSubview(activityIndicator)
+            activityIndicator.startAnimating()
+        }
+        
+        func setupTextField() {
+            for i in 0 ..< textFields.count {
+                let textField = textFields[i]
+                textField.font = appearance.body.font
+                textField.textColor = appearance.body.textColor
+                textField.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1)
+                textField.borderWidth = 0.5
+                textField.backgroundColor = .white
+                textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
+                textField.autocorrectionType = .no
+                if textField === textFields.last {
+                    textField.returnKeyType = .done
+                    textField.addTarget(textField, action: #selector(UIResponder.resignFirstResponder), for: .editingDidEndOnExit)
+                } else {
+                    textField.returnKeyType = .next
+                    textField.addTarget(textFields[i+1], action: #selector(UIResponder.becomeFirstResponder), for: .editingDidEndOnExit)
+                }
+                customViewsStackView.addArrangedSubview(textField)
             }
-            customViewsStackView.addArrangedSubview(textField)
+        }
+        
+        if style == .activityIndicator {
+            setupActivityIndicatorView()
+        }
+        setupTextField()
+        if customViewsStackView.arrangedSubviews.isEmpty {
+            customViewsStackView.removeFromSuperview()
         }
     }
     
@@ -180,6 +194,13 @@ public class AlertViewController: UIViewController {
 
     fileprivate func setupButtons() {
         guard let firstAction = actions.first else { return }
+        actionsStackView.axis = appearance.actionsAxis
+        if actionsStackView.axis == .vertical {
+            actionsStackView.spacing = 10
+            actionsStackView.isLayoutMarginsRelativeArrangement = true
+            actionsStackView.layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+            firstButtonHeightConstraint.constant = 45
+        }
         apply(firstAction, toButton: firstButton)
         if actions.count == 2 {
             let secondAction = actions.last!
@@ -200,7 +221,11 @@ public class AlertViewController: UIViewController {
             toButton.setTitleColor(appearance.defaultButton.textColor, for: UIControlState())
             toButton.setTitleColor(appearance.defaultButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.defaultButton.font
-            toButton.backgroundColor = appearance.defaultButton.backgroundColor
+            toButton.setBackgroundColor(appearance.defaultButton.backgroundColor, forState: .normal)
+            toButton.setBackgroundColor(appearance.defaultButton.selectedBackgroundColor, forState: .highlighted)
+            toButton.layer.cornerRadius = appearance.defaultButton.cornerRadius ?? toButton.layer.cornerRadius
+            toButton.layer.borderColor = appearance.defaultButton.borderColor?.cgColor
+            toButton.layer.borderWidth = appearance.defaultButton.borderWidth ?? toButton.layer.borderWidth
             if let minimumScaleFactor = appearance.defaultButton.minimumScaleFactor {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }
@@ -208,7 +233,11 @@ public class AlertViewController: UIViewController {
             toButton.setTitleColor(appearance.button.textColor, for: UIControlState())
             toButton.setTitleColor(appearance.button.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.button.font
-            toButton.backgroundColor = appearance.button.backgroundColor
+            toButton.setBackgroundColor(appearance.button.backgroundColor, forState: .normal)
+            toButton.setBackgroundColor(appearance.button.selectedBackgroundColor, forState: .highlighted)
+            toButton.layer.cornerRadius = appearance.button.cornerRadius ?? toButton.layer.cornerRadius
+            toButton.layer.borderColor = appearance.button.borderColor?.cgColor
+            toButton.layer.borderWidth = appearance.button.borderWidth ?? toButton.layer.borderWidth
             if let minimumScaleFactor = appearance.button.minimumScaleFactor {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }
@@ -216,7 +245,11 @@ public class AlertViewController: UIViewController {
             toButton.setTitleColor(appearance.button.textColor, for: UIControlState())
             toButton.setTitleColor(appearance.button.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.button.font
-            toButton.backgroundColor = appearance.button.backgroundColor
+            toButton.setBackgroundColor(appearance.button.backgroundColor, forState: .normal)
+            toButton.setBackgroundColor(appearance.button.selectedBackgroundColor, forState: .highlighted)
+            toButton.layer.cornerRadius = appearance.button.cornerRadius ?? toButton.layer.cornerRadius
+            toButton.layer.borderColor = appearance.button.borderColor?.cgColor
+            toButton.layer.borderWidth = appearance.button.borderWidth ?? toButton.layer.borderWidth
             if let minimumScaleFactor = appearance.button.minimumScaleFactor {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }

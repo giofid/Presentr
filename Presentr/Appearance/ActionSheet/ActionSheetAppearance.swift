@@ -44,7 +44,7 @@ open class ActionSheetAppearance {
 
     /// Radius of rounded corners for presented controller if roundCorners is true. Default is 4.
     internal var cornerRadius: CGFloat = 4
-//
+    
     internal var contentInset: CGFloat = 15
     
     // MARK: - Appearance Properties

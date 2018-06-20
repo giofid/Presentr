@@ -231,26 +231,28 @@ class MainTableViewController: UITableViewController {
     }()
 
     lazy var alertController: AlertViewController = {
-        let alertController = AlertViewController(title: "Are you sure?", body: "This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone!")
+        let alertController = AlertViewController(title: "Gli operatori non sono attualmente disponibili", body: "Ti suggeriamo di prenotare la tua sessione di riconoscimento nel giorno e ora che preferisci.")
         let appearance = alertController.appearance
+        appearance.actionsAxis = .vertical
         appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
         appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
         appearance.title.textColor = .black
         appearance.body.textColor = .darkGray
         appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
         appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
-        appearance.button.textColor = .darkGray
+        appearance.button.borderWidth = 0.5
+        appearance.button.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1.0)
+        appearance.button.cornerRadius = 4
         appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
-        appearance.defaultButton.textColor = .darkGray
-        let cancelAction = AlertAction(title: "NO, SORRY!", style: .default) { alert in
+        appearance.defaultButton.cornerRadius = 4
+        let cancelAction = AlertAction(title: "Riprova più tardi", style: .cancel) { alert in
             print("CANCEL!!")
         }
-        let okAction = AlertAction(title: "DO IT!", style: .destructive) { alert in
-            alertController.showError(message: "ciao")
+        let okAction = AlertAction(title: "Prenota la tua sessione", style: .default) { alert in
             print("OK!!")
         }
-        alertController.addAction(cancelAction)
         alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
         return alertController
     }()
     
