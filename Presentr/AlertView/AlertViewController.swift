@@ -242,15 +242,15 @@ public class AlertViewController: UIViewController {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }
         case .destructive:
-            toButton.setTitleColor(appearance.button.textColor, for: UIControlState())
-            toButton.setTitleColor(appearance.button.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
-            toButton.titleLabel?.font = appearance.button.font
-            toButton.setBackgroundColor(appearance.button.backgroundColor, forState: .normal)
-            toButton.setBackgroundColor(appearance.button.selectedBackgroundColor, forState: .highlighted)
-            toButton.layer.cornerRadius = appearance.button.cornerRadius ?? toButton.layer.cornerRadius
-            toButton.layer.borderColor = appearance.button.borderColor?.cgColor
-            toButton.layer.borderWidth = appearance.button.borderWidth ?? toButton.layer.borderWidth
-            if let minimumScaleFactor = appearance.button.minimumScaleFactor {
+            toButton.setTitleColor(appearance.destructiveButton.textColor, for: UIControlState())
+            toButton.setTitleColor(appearance.destructiveButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
+            toButton.titleLabel?.font = appearance.destructiveButton.font
+            toButton.setBackgroundColor(appearance.destructiveButton.backgroundColor, forState: .normal)
+            toButton.setBackgroundColor(appearance.destructiveButton.selectedBackgroundColor, forState: .highlighted)
+            toButton.layer.cornerRadius = appearance.destructiveButton.cornerRadius ?? toButton.layer.cornerRadius
+            toButton.layer.borderColor = appearance.destructiveButton.borderColor?.cgColor
+            toButton.layer.borderWidth = appearance.destructiveButton.borderWidth ?? toButton.layer.borderWidth
+            if let minimumScaleFactor = appearance.destructiveButton.minimumScaleFactor {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }
         }
