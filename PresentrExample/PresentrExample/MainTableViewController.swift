@@ -240,9 +240,6 @@ class MainTableViewController: UITableViewController {
         appearance.body.textColor = .darkGray
         appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
         appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
-        appearance.button.borderWidth = 0.5
-        appearance.button.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1.0)
-        appearance.button.cornerRadius = 4
         appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
         appearance.defaultButton.cornerRadius = 4
         let cancelAction = AlertAction(title: "Riprova più tardi", style: .cancel) { alert in

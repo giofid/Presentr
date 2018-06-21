@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Presentr
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let appearance = PresentrAppearance.standard.alert
+        appearance.button.borderWidth = 0.5
+        appearance.button.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1.0)
+        appearance.button.cornerRadius = 4
         return true
     }
 
