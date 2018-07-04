@@ -14,7 +14,7 @@ open class AlertButtonItemAppearance: AlertItemAppearance {
         if let copy = copy as? AlertButtonItemAppearance {
             self.inheritedCornerRadius = copy.cornerRadius
             self.inheritedBorderColor = copy.borderColor
-             self.inheritedBorderWidth = copy.borderWidth
+            self.inheritedBorderWidth = copy.borderWidth
             self.inheritedBackgroundColor = copy.backgroundColor
             self.inheritedSelectedBackgroundColor = copy.selectedBackgroundColor
             self.inheritedMinimumScaleFactor = copy.minimumScaleFactor

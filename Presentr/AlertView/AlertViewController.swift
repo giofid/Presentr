@@ -74,7 +74,7 @@ public class AlertViewController: UIViewController {
         super.viewDidLoad()
 
         if actions.isEmpty {
-            let okAction = AlertAction(title: "OK", style: .default, handler: nil)
+            let okAction = AlertAction(title: "OK", style: .cancel, handler: nil)
             addAction(okAction)
         }
         
