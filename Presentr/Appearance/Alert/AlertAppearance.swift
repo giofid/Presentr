@@ -89,6 +89,7 @@ open class AlertAppearance {
     public lazy var defaultButton: AlertDefaultButtonItemAppearance = {
         let alertButton = AlertDefaultButtonItemAppearance(copy: item)
         alertButton.backgroundColor = UIColor(red: 172.0/255.0, green: 34.0/255.0, blue: 42.0/255.0, alpha: 1.0)
+        alertButton.textColor = .white
         alertButton.selectedBackgroundColor = UIColor(red: 132.0/255.0, green: 23.0/255.0, blue: 34.0/255.0, alpha: 1.0)
         return alertButton
     }()
