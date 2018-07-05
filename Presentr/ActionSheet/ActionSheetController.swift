@@ -171,8 +171,8 @@ public class ActionSheetController: UIViewController {
         cancel?.applyAppearance(appearance)
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         preferredContentSize.height = headerActionView.intrinsicContentSize.height
     }
     
