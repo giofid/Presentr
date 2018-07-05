@@ -32,7 +32,7 @@ public class ActionSheetController: UIViewController {
         didSet {
             actionsTableView.estimatedRowHeight = appearance.item.height
             actionsTableView.separatorStyle = appearance.item.shouldShowSeparator ? .singleLine : .none
-            actionsTableView.tableFooterView = UIView(frame: .zero)
+            actionsTableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: actionsTableView.frame.width, height: CGFloat.leastNormalMagnitude))
             actionsTableView.separatorInset = appearance.item.separatorInsets
             actionsTableView.dataSource = actionsHandler
             actionsTableView.delegate = actionsHandler
