@@ -39,7 +39,7 @@ extension UIViewController: PropertyStoring {
         }()
         
         static var actionSheetPresentr: Presentr = {
-            let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: true)
+            let center = ModalCenterPosition.bottom(percentage: 1, fixedWidth: true)
             let presentationType = PresentationType.dynamic(center: center)
             let presenter = Presentr(presentationType: presentationType)
             presenter.dismissOnSwipe = false

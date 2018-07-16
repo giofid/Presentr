@@ -50,13 +50,13 @@ open class PresentrAppearance {
     }
     
     /// Radius of rounded corners for presented controller if roundCorners is true. Default is 4.
-    public var cornerRadius: CGFloat = 4 {
+    public var cornerRadius: CGFloat = 0 {
         didSet {
             actionSheet.cornerRadius = cornerRadius
         }
     }
     
-    public var contentInset: CGFloat = 15 {
+    public var contentInset: CGFloat = 0 {
         didSet {
             actionSheet.contentInset = contentInset
         }

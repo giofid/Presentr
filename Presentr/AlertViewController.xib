@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,11 +27,11 @@
             <rect key="frame" x="0.0" y="0.0" width="270" height="187"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ocw-zu-mRO" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ocw-zu-mRO" customClass="AlertHeaderActionsView" customModule="Presentr" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="270" height="187"/>
                     <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="utY-d8-a0g" customClass="AutoSizingScrollView" customModule="Presentr" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="270" height="134.5"/>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" placeholderIntrinsicWidth="270" placeholderIntrinsicHeight="94.5" translatesAutoresizingMaskIntoConstraints="NO" id="utY-d8-a0g" customClass="AutoSizingScrollView" customModule="Presentr" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="270" height="94.5"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="FDW-Yi-xBz" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="24" width="270" height="62.5"/>
@@ -71,46 +71,69 @@
                                 </stackView>
                             </subviews>
                             <constraints>
+                                <constraint firstAttribute="height" constant="94.5" id="4vw-cv-x8g"/>
                                 <constraint firstItem="FDW-Yi-xBz" firstAttribute="top" secondItem="utY-d8-a0g" secondAttribute="top" constant="24" id="Utm-8m-ohy"/>
                                 <constraint firstItem="FDW-Yi-xBz" firstAttribute="width" secondItem="utY-d8-a0g" secondAttribute="width" id="XGA-CY-1U9"/>
                                 <constraint firstAttribute="bottom" secondItem="FDW-Yi-xBz" secondAttribute="bottom" constant="12" id="kiU-SS-jPv"/>
                                 <constraint firstAttribute="trailing" secondItem="FDW-Yi-xBz" secondAttribute="trailing" id="tmw-vb-ZsJ"/>
                                 <constraint firstItem="FDW-Yi-xBz" firstAttribute="leading" secondItem="utY-d8-a0g" secondAttribute="leading" id="uaJ-Rd-1Wl"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="4vw-cv-x8g"/>
+                                </mask>
+                            </variation>
                         </scrollView>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="19q-e8-oQq" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="134.5" width="270" height="52.5"/>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="270" placeholderIntrinsicHeight="92.5" translatesAutoresizingMaskIntoConstraints="NO" id="kIj-uQ-AD5" customClass="AutoSizingScrollView" customModule="Presentr" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="94.5" width="270" height="92.5"/>
                             <subviews>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eF-eF-HUl">
-                                    <rect key="frame" x="0.0" y="0.0" width="133.5" height="52.5"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="19q-e8-oQq" customClass="AutoSizingStackView" customModule="Presentr" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="270" height="52.5"/>
+                                    <subviews>
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eF-eF-HUl" customClass="AutoSizingButton" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="133.5" height="52.5"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52.5" id="M7l-CB-AlN"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <state key="normal" title="NO, SORRY 🕶"/>
+                                            <connections>
+                                                <action selector="didSelectFirstAction:" destination="-1" eventType="touchUpInside" id="Ais-DD-WnP"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5do-eX-DIi" customClass="AutoSizingButton" customModule="Presentr" customModuleProvider="target">
+                                            <rect key="frame" x="136.5" y="0.0" width="133.5" height="52.5"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <state key="normal" title="YES, PLEASE ☹️"/>
+                                            <connections>
+                                                <action selector="didSelectSecondAction:" destination="-1" eventType="touchUpInside" id="KlS-Ts-crz"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52.5" id="M7l-CB-AlN"/>
+                                        <constraint firstItem="5do-eX-DIi" firstAttribute="height" secondItem="9eF-eF-HUl" secondAttribute="height" id="4g4-7y-B6p"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <state key="normal" title="NO, SORRY 🕶"/>
-                                    <connections>
-                                        <action selector="didSelectFirstAction:" destination="-1" eventType="touchUpInside" id="Ais-DD-WnP"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5do-eX-DIi">
-                                    <rect key="frame" x="136.5" y="0.0" width="133.5" height="52.5"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                    <state key="normal" title="YES, PLEASE ☹️"/>
-                                    <connections>
-                                        <action selector="didSelectSecondAction:" destination="-1" eventType="touchUpInside" id="KlS-Ts-crz"/>
-                                    </connections>
-                                </button>
+                                </stackView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="5do-eX-DIi" firstAttribute="height" secondItem="9eF-eF-HUl" secondAttribute="height" id="4g4-7y-B6p"/>
+                                <constraint firstItem="19q-e8-oQq" firstAttribute="leading" secondItem="kIj-uQ-AD5" secondAttribute="leading" id="CC0-xs-9oP"/>
+                                <constraint firstItem="19q-e8-oQq" firstAttribute="width" secondItem="kIj-uQ-AD5" secondAttribute="width" id="Fir-gl-IYt"/>
+                                <constraint firstAttribute="trailing" secondItem="19q-e8-oQq" secondAttribute="trailing" id="Gdr-bY-7rI"/>
+                                <constraint firstAttribute="bottom" secondItem="19q-e8-oQq" secondAttribute="bottom" id="XEu-Q3-gW0"/>
+                                <constraint firstItem="19q-e8-oQq" firstAttribute="top" secondItem="kIj-uQ-AD5" secondAttribute="top" id="jzg-Wp-8gA"/>
                             </constraints>
-                        </stackView>
+                        </scrollView>
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="width" constant="270" id="JEu-8G-Fa1"/>
                     </constraints>
+                    <connections>
+                        <outlet property="actionsView" destination="kIj-uQ-AD5" id="vla-2G-H9y"/>
+                        <outlet property="headerHeightConstraint" destination="4vw-cv-x8g" id="Z3S-0C-wkx"/>
+                        <outlet property="headerView" destination="utY-d8-a0g" id="Ngl-og-1fQ"/>
+                    </connections>
                 </stackView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

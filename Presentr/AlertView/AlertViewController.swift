@@ -214,6 +214,9 @@ public class AlertViewController: UIViewController {
         let title = action.title.uppercased()
         toButton.setTitle(title, for: UIControlState())
         toButton.isEnabled = action.isEnabled
+        toButton.titleLabel?.numberOfLines = 0
+        toButton.titleLabel?.preferredMaxLayoutWidth = 230
+        toButton.titleLabel?.textAlignment = .center
         let style = action.style
         let alphaComponent: CGFloat = 0.25
         switch style {
