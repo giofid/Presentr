@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -51,11 +52,11 @@
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="260" verticalCompressionResistancePriority="760" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="142.5" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A1E-9y-IFr" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="70" width="375" height="142.5"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="256" constant="85" id="LIN-ZU-8BT"/>
-                                            </constraints>
                                         </tableView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="A1E-9y-IFr" firstAttribute="height" secondItem="Df3-wI-LWD" secondAttribute="height" multiplier="0.5" priority="256" id="P4v-8Z-Ddm"/>
+                                    </constraints>
                                     <connections>
                                         <outlet property="actionsView" destination="A1E-9y-IFr" id="Iwg-4a-Xsv"/>
                                         <outlet property="headerView" destination="a3B-3C-EGM" id="3IK-7N-vvD"/>
