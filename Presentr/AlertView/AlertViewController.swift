@@ -116,8 +116,8 @@ public class AlertViewController: UIViewController {
     public func addTextField(configurationHandler: ((UITextField) -> Void)? = nil) {
         assert(style == .default, "Text fields can only be added to an alert view controller of style .default")
         let textField = PaddingUITextField()
-        textField.leftInset = 12
-        textField.rightInset = 12
+        textField.leftInset = 20
+        textField.rightInset = 20
         if bodyText?.isEmpty ?? true {
             bodyText = " "
         }
@@ -152,7 +152,7 @@ public class AlertViewController: UIViewController {
                 textField.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1)
                 textField.borderWidth = 0.5
                 textField.backgroundColor = .white
-                textField.heightAnchor.constraint(equalToConstant: 36).isActive = true
+                textField.heightAnchor.constraint(equalToConstant: 45).isActive = true
                 textField.autocorrectionType = .no
                 if textField === textFields.last {
                     textField.returnKeyType = .done
