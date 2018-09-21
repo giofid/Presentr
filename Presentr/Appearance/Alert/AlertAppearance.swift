@@ -51,9 +51,9 @@ open class AlertAppearance {
         }
     }
     
-    private var customActionsAxis: UILayoutConstraintAxis?
-    private var inheritedActionsAxis: UILayoutConstraintAxis = .horizontal
-    public var actionsAxis: UILayoutConstraintAxis {
+    private var customActionsAxis: NSLayoutConstraint.Axis?
+    private var inheritedActionsAxis: NSLayoutConstraint.Axis = .horizontal
+    public var actionsAxis: NSLayoutConstraint.Axis {
         get {
             return customActionsAxis ?? inheritedActionsAxis
         }

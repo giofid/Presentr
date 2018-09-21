@@ -58,7 +58,7 @@ extension ActionSheetHeader: ActionSheetItemProtocol {
     
     func createCell(for tableView: UITableView) -> MinHeightTableViewCell {
         let identifier = type(of: self).className
-        let style: UITableViewCellStyle = (subtitle != nil) ? .subtitle : .default
+        let style: UITableViewCell.CellStyle = (subtitle != nil) ? .subtitle : .default
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier)  as? MinHeightTableViewCell ?? MinHeightTableViewCell(style: style, reuseIdentifier: identifier)
         return cell
     }

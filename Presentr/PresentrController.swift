@@ -157,7 +157,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
         }
     }
     
-    private func setupBackground(_ backgroundColor: UIColor, backgroundOpacity: Float, blurBackground: Bool, blurStyle: UIBlurEffectStyle) {
+    private func setupBackground(_ backgroundColor: UIColor, backgroundOpacity: Float, blurBackground: Bool, blurStyle: UIBlurEffect.Style) {
         let tap = UITapGestureRecognizer(target: self, action: #selector(chromeViewTapped))
         tap.delaysTouchesBegan = true
         chromeView.addGestureRecognizer(tap)
@@ -208,13 +208,13 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     }
     
     fileprivate func registerKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWasShown(notification:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWasShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     fileprivate func removeObservers() {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private var presentingViewControllerTraitCollection: UITraitCollection?
@@ -362,7 +362,7 @@ fileprivate extension PresentrController {
                     }
                 } else {
                     presentedViewController.view.layoutIfNeeded()
-                    return Float(presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).width)
+                    return Float(presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width)
                 }
             }
             return 0
@@ -375,7 +375,7 @@ fileprivate extension PresentrController {
         guard let size = presentationType.size() else {
             if case .dynamic(let modalCenterPosition) = presentationType {
                 presentedViewController.view.layoutIfNeeded()
-                let height = presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
+                let height = presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
                 if case .bottom(let percentage, _) = modalCenterPosition {
                     return Float(min(parentSize.height * CGFloat(percentage), height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2)))
                 } else {

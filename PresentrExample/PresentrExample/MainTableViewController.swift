@@ -157,7 +157,7 @@ class MainTableViewController: UITableViewController {
         return presenter
     }()
 
-    let menuPresesenter: Presentr = {
+    let menuPresenter: Presentr = {
         let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: false)
         let presentationType = PresentationType.dynamic(center: center)
         let presenter = Presentr(presentationType: presentationType)
@@ -372,11 +372,11 @@ class MainTableViewController: UITableViewController {
 extension MainTableViewController {
 
     @objc func uikitAlert() {
-        let alertController = UIAlertController(title: "Are you sure?", message: "This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone!", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
+        let alertController = UIAlertController(title: "Gli operatori non sono attualmente disponibili", message: "Ti suggeriamo di prenotare la tua sessione di riconoscimento nel giorno e ora che preferisci.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Riprova più tardi", style: .default) { alert in
             print("CANCEL!!")
         }
-        let okAction = UIAlertAction(title: "DO IT!", style: .cancel) { alert in
+        let okAction = UIAlertAction(title: "Prenota la tua sessione", style: .cancel) { alert in
             print("OK!!")
         }
         alertController.addAction(cancelAction)
@@ -418,15 +418,35 @@ extension MainTableViewController {
     }
     
     @objc func uikitActionSheet() {
-        let alertController = UIAlertController(title: "Are you sure?", message: "This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone! This action can't be undone!", preferredStyle: .actionSheet)
-        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
+        let alertController = UIAlertController(title: "Are you sure?", message: "a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z", preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .cancel) { alert in
             print("CANCEL!!")
         }
         let okAction = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
             print("OK!!")
         }
+        let ok1Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok2Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok3Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok4Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok5Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
+        alertController.addAction(ok1Action)
+        alertController.addAction(ok2Action)
+        alertController.addAction(ok3Action)
+        alertController.addAction(ok4Action)
+        alertController.addAction(ok5Action)
         alertController.popoverPresentationController?.sourceView = self.view
         alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
         self.present(alertController, animated: true, completion: nil)
@@ -439,10 +459,10 @@ extension MainTableViewController {
         let actionSheetController = ActionSheetController(header: header)
         let appearance = actionSheetController.appearance
         appearance.item.shouldShowSeparator = false
-        appearance.header.font = UIFont.preferredFont(forTextStyle: .body)
-        appearance.item.font = UIFont.preferredFont(forTextStyle: .body)
-        appearance.header.detailTextFont = UIFont.preferredFont(forTextStyle: .caption2)
-        actionSheetController.addAction(ActionSheetAction(title: "action 1", image: nil, handler: { (action) in
+//        appearance.header.font = UIFont.preferredFont(forTextStyle: .body)
+//        appearance.item.font = UIFont.preferredFont(forTextStyle: .body)
+//        appearance.header.detailTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        actionSheetController.addAction(ActionSheetAction(title: "action 1", image: #imageLiteral(resourceName: "qrcode"), handler: { (action) in
             print("action 1")
         }))
         actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
@@ -472,26 +492,36 @@ extension MainTableViewController {
         actionSheetController.addAction(ActionSheetAction(title: "action 10", image: nil, handler: { (action) in
             print("action 10")
         }))
-        customPresent(actionSheetController, presentr: menuPresesenter, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+        customPresent(actionSheetController, presentr: menuPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
     }
     
     @objc func actionSheetDefault() {
-        let actionSheetController = ActionSheetController(title: "Are you sure?", message: "This action can't be undone!", cancelAction: ActionSheetAction(title: "Cancel", image: nil, handler: nil))
-//        let appearance = actionSheetController.appearance
-//        appearance.item.shouldShowSeparator = true
-//        appearance.item.separatorInsets = .zero
-//        appearance.item.textAlignment = .center
-//        appearance.title.textAlignment = .center
-//        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
-//        appearance.item.font = UIFont.preferredFont(forTextStyle: .caption2)
-//        appearance.title.messageTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        let actionSheetController = ActionSheetController(title: "Elimina?", message: "a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z", cancelAction: ActionSheetAction(title: "Cancel", image: nil, handler: nil))
         actionSheetController.addAction(ActionSheetAction(title: "action 1", image: nil, handler: { (action) in
             print("action 1")
         }))
         actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
             print("action 2")
         }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 3", image: nil, handler: { (action) in
+            print("action 3")
+        }))
         customPresent(actionSheetController, presentr: actionSheetPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+        
+        
+        
+//        let title = NSLocalizedString("Delete account", tableName: "Targetable", comment: "Delete Account ActionSheet Title")
+//        let templateMessage = NSLocalizedString("Are you sure you want to permanently delete the account %@?", tableName: "Targetable", comment: "Confirm Account Deletion ActionSheet Message")
+//        let message = String.localizedStringWithFormat(templateMessage, "account.usage")
+//        let cancelAction = ActionSheetAction(title: NSLocalizedString("CANCEL", comment: "Cancel Action"), image: nil, handler: nil)
+//        let actionSheetController = ActionSheetController(title: title, message: message, cancelAction: cancelAction)
+//        let deleteAction = ActionSheetAction(title: NSLocalizedString("DELETE", comment: "Delete Action"), image: nil, handler: { _ in
+//
+//        })
+//        deleteAction.appearance.textColor = .red
+//        actionSheetController.addAction(deleteAction)
+//        self.customPresent(actionSheetController, presentr: actionSheetPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true, completion: nil)
+        
     }
     
     @objc func alertDefault() {
@@ -500,6 +530,10 @@ extension MainTableViewController {
         presenter.dismissTransitionType = .crossDissolve
         presenter.dismissOnSwipe = false
         presenter.dismissOnTap = false
+        presenter.appearance.contentInset = 15
+        presenter.appearance.roundCorners = true
+        presenter.appearance.cornerRadius = 6
+        presenter.keyboardTranslationType = .stickToTop
         presenter.appearance.alert.button.minimumScaleFactor = 0.5
         customPresent(alertController, presentr: presenter, animated: true)
     }

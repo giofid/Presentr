@@ -16,13 +16,13 @@ class AutoSizingStackView: UIStackView {
             for view in self.arrangedSubviews {
                 width += view.intrinsicContentSize.width + spacing
             }
-            return CGSize(width: width - spacing, height: UIViewNoIntrinsicMetric)
+            return CGSize(width: width - spacing, height: UIView.noIntrinsicMetric)
         case .vertical:
             var height = CGFloat(0)
             for view in self.arrangedSubviews {
                 height += view.intrinsicContentSize.height + spacing
             }
-            return CGSize(width: UIViewNoIntrinsicMetric, height: height - spacing)
+            return CGSize(width: UIView.noIntrinsicMetric, height: height - spacing)
         }
     }
 }

@@ -212,7 +212,7 @@ public class AlertViewController: UIViewController {
 
     fileprivate func apply(_ action: AlertAction, toButton: UIButton) {
         let title = action.title.uppercased()
-        toButton.setTitle(title, for: UIControlState())
+        toButton.setTitle(title, for: UIControl.State())
         toButton.isEnabled = action.isEnabled
         toButton.titleLabel?.numberOfLines = 0
         toButton.titleLabel?.preferredMaxLayoutWidth = 230
@@ -221,7 +221,7 @@ public class AlertViewController: UIViewController {
         let alphaComponent: CGFloat = 0.25
         switch style {
         case .default:
-            toButton.setTitleColor(appearance.defaultButton.textColor, for: UIControlState())
+            toButton.setTitleColor(appearance.defaultButton.textColor, for: UIControl.State())
             toButton.setTitleColor(appearance.defaultButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.defaultButton.font
             toButton.setBackgroundColor(appearance.defaultButton.backgroundColor, forState: .normal)
@@ -233,7 +233,7 @@ public class AlertViewController: UIViewController {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }
         case .cancel:
-            toButton.setTitleColor(appearance.button.textColor, for: UIControlState())
+            toButton.setTitleColor(appearance.button.textColor, for: UIControl.State())
             toButton.setTitleColor(appearance.button.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.button.font
             toButton.setBackgroundColor(appearance.button.backgroundColor, forState: .normal)
@@ -245,7 +245,7 @@ public class AlertViewController: UIViewController {
                 toButton.titleLabel?.minimumScaleFactor = minimumScaleFactor
             }
         case .destructive:
-            toButton.setTitleColor(appearance.destructiveButton.textColor, for: UIControlState())
+            toButton.setTitleColor(appearance.destructiveButton.textColor, for: UIControl.State())
             toButton.setTitleColor(appearance.destructiveButton.textColor?.withAlphaComponent(alphaComponent), for: .disabled)
             toButton.titleLabel?.font = appearance.destructiveButton.font
             toButton.setBackgroundColor(appearance.destructiveButton.backgroundColor, forState: .normal)
