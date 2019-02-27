@@ -58,10 +58,10 @@ extension UIViewController: PropertyStoring {
             presenter.dismissTransitionType = .crossDissolve
             presenter.dismissOnSwipe = false
             presenter.dismissOnTap = false
-            presenter.appearance.contentInset = 15
+            presenter.appearance.contentInset = 20
             presenter.appearance.roundCorners = true
             presenter.appearance.cornerRadius = 6
-            presenter.keyboardTranslationType = .stickToTop
+            presenter.keyboardTranslationType = .compress
             return presenter
         }()
     }
