@@ -75,6 +75,8 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     fileprivate var presentedViewFrame: CGRect = .zero
 
     fileprivate var presentedViewCenter: CGPoint = .zero
+    
+    fileprivate var presentedViewSafeAreaInsets: UIEdgeInsets  = .zero
 
     fileprivate var latestShouldDismiss: Bool = true
 
@@ -271,7 +273,7 @@ extension PresentrController {
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         let width = getWidthFromType(parentSize)
         let height = getHeightFromType(parentSize)
-        return CGSize(width: CGFloat(width), height: CGFloat(height))
+        return CGSize(width: width, height: height)
     }
     
     override func containerViewWillLayoutSubviews() {
@@ -351,18 +353,18 @@ extension PresentrController {
 
 fileprivate extension PresentrController {
 
-    func getWidthFromType(_ parentSize: CGSize) -> Float {
+    func getWidthFromType(_ parentSize: CGSize) -> CGFloat {
         guard let size = presentationType.size() else {
             if case .dynamic(let modalCenterPosition) = presentationType {
                 if case .bottom(_ , let fixedWidth) = modalCenterPosition {
                     if fixedWidth {
-                        return Float(min(parentSize.width, parentSize.height) -  contentInset * 2)
+                        return min(parentSize.width, parentSize.height) -  contentInset * 2
                     } else {
-                        return Float(parentSize.width - contentInset * 2)
+                        return parentSize.width - contentInset * 2
                     }
                 } else {
                     presentedViewController.view.layoutIfNeeded()
-                    return Float(presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width)
+                    return presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width
                 }
             }
             return 0
@@ -371,17 +373,21 @@ fileprivate extension PresentrController {
         return size.width.calculateWidth(parentSize)
     }
     
-    func getHeightFromType(_ parentSize: CGSize) -> Float {
+    func getHeightFromType(_ parentSize: CGSize) -> CGFloat {
         guard let size = presentationType.size() else {
             if case .dynamic(let modalCenterPosition) = presentationType {
                 presentedViewController.view.layoutIfNeeded()
                 let height = presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
                 if case .bottom(let percentage, _) = modalCenterPosition {
-                    return Float(min(parentSize.height * CGFloat(percentage), height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2)))
+                    var safeAreaInset: CGFloat = 0
+                    if #available(iOS 11.0, *) {
+                        safeAreaInset = presentedViewController.view.safeAreaInsets.top + presentedViewController.view.safeAreaInsets.bottom
+                    }
+                    return min(parentSize.height * percentage, height + (contentInset != 0 ? 0 : pannedHeight + safeAreaInset), parentSize.height - contentInset * 2 - safeAreaInset)
                 } else {
-                    return Float(min(height, height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2)))
+                    return min(height, height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2))
                 }
-             }
+            }
             return 0
         }
         return size.height.calculateHeight(parentSize)
@@ -441,7 +447,9 @@ extension PresentrController {
         if gesture.state == .began {
             presentedViewFrame = presentedViewController.view.frame
             presentedViewCenter = presentedViewController.view.center
-
+            if #available(iOS 12.0, *) {
+                presentedViewSafeAreaInsets = presentedViewController.view.safeAreaInsets
+            }
             let directionDown = gesture.translation(in: presentedViewController.view).y > 0
             if (shouldSwipeBottom && directionDown) || (shouldSwipeTop && !directionDown) {
                 latestShouldDismiss = conformingPresentedController?.presentrShouldDismiss?(keyboardShowing: keyboardIsShowing) ?? true
@@ -463,7 +471,15 @@ extension PresentrController {
         if velocity.x / velocity.y < 5.0 {
             if presentedViewCenter.y + translation.y > presentedViewCenter.y {
                 presentedViewController.view.center = CGPoint(x: presentedViewCenter.x, y: presentedViewCenter.y + translation.y)
+                if #available(iOS 12.0, *) {
+                    if presentedViewController.view.safeAreaInsets == .zero {
+                        presentedViewController.additionalSafeAreaInsets = presentedViewSafeAreaInsets
+                    }
+                }
             } else {
+                if #available(iOS 12.0, *) {
+                    presentedViewController.additionalSafeAreaInsets = .zero
+                }
                 pannedHeight = -translation.y / 10
                 presentedView?.frame = CGRect(x: presentedViewFrame.origin.x, y: presentedViewFrame.origin.y - pannedHeight, width: presentedViewFrame.width, height: presentedViewFrame.height + pannedHeight)
             }
@@ -476,6 +492,10 @@ extension PresentrController {
         if closeSpeed > 750.0 || closePercent > 0.33 {
             presentedViewController.dismiss(animated: dismissAnimated, completion: nil)
         } else {
+            
+            if #available(iOS 12.0, *) {
+                presentedViewController.additionalSafeAreaInsets = .zero
+            }
             closeSpeed = 0.0
             closePercent = 0.0
             pannedHeight = 0.0

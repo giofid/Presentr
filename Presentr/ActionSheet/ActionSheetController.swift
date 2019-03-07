@@ -73,6 +73,9 @@ public class ActionSheetController: UIViewController {
         }
     }
     
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    
     fileprivate var hasToShowHeader: Bool?
     
     open lazy var appearance: ActionSheetAppearance = {
@@ -163,6 +166,14 @@ public class ActionSheetController: UIViewController {
             if containerView.arrangedSubviews.count == 2 {
                 containerView.removeArrangedSubview(cancelTableView)
                 cancelTableView.removeFromSuperview()
+            }
+        } else {
+            if #available(iOS 11.0, *) {
+                let guide = self.view.safeAreaLayoutGuide
+                bottomConstraint.isActive = false
+                topConstraint.isActive = false
+                containerView.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
+                containerView.topAnchor.constraint(equalTo: guide.topAnchor).isActive = true
             }
         }
         actionSheetTitle?.applyAppearance(appearance)

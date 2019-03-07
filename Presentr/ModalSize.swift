@@ -23,9 +23,9 @@ public enum ModalSize {
     case `default`
     case half
     case full
-    case custom(size: Float)
-    case fluid(percentage: Float)
-    case sideMargin(value: Float)
+    case custom(size: CGFloat)
+    case fluid(percentage: CGFloat)
+    case sideMargin(value: CGFloat)
 
     /**
      Calculates the exact width value for the presented view controller.
@@ -34,20 +34,20 @@ public enum ModalSize {
 
      - returns: Exact float width value.
      */
-    func calculateWidth(_ parentSize: CGSize) -> Float {
+    func calculateWidth(_ parentSize: CGSize) -> CGFloat {
         switch self {
         case .default:
-            return floorf(Float(parentSize.width) - (PresentrConstants.Values.defaultSideMargin * 2.0))
+            return floor(parentSize.width - (PresentrConstants.Values.defaultSideMargin * 2.0))
         case .half:
-            return floorf(Float(parentSize.width) / 2.0)
+            return floor(parentSize.width / 2.0)
         case .full:
-            return Float(parentSize.width)
+            return parentSize.width
         case .custom(let size):
             return size
         case .fluid(let percentage):
-            return floorf(Float(parentSize.width) * percentage)
+            return floor(parentSize.width * percentage)
         case .sideMargin(let value):
-            return floorf(Float(parentSize.width) - value * 2.0)
+            return floor(parentSize.width - value * 2.0)
         }
     }
 
@@ -58,20 +58,20 @@ public enum ModalSize {
 
      - returns: Exact float height value.
      */
-    func calculateHeight(_ parentSize: CGSize) -> Float {
+    func calculateHeight(_ parentSize: CGSize) -> CGFloat {
         switch self {
         case .default:
-            return floorf(Float(parentSize.height) * PresentrConstants.Values.defaultHeightPercentage)
+            return floor(parentSize.height * PresentrConstants.Values.defaultHeightPercentage)
         case .half:
-            return floorf(Float(parentSize.height) / 2.0)
+            return floor(parentSize.height / 2.0)
         case .full:
-            return Float(parentSize.height)
+            return parentSize.height
         case .custom(let size):
             return size
         case .fluid(let percentage):
-            return floorf(Float(parentSize.height) * percentage)
+            return floor(parentSize.height * percentage)
         case .sideMargin(let value):
-            return floorf(Float(parentSize.height) - value * 2)
+            return floor(parentSize.height - value * 2)
         }
     }
 

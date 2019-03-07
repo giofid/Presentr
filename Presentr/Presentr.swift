@@ -12,8 +12,8 @@ import UIKit
 public enum PresentrConstants {
 
     public enum Values {
-        public static let defaultSideMargin: Float = 30.0
-        public static let defaultHeightPercentage: Float = 0.66
+        public static let defaultSideMargin: CGFloat = 30.0
+        public static let defaultHeightPercentage: CGFloat = 0.66
     }
 
     public enum Strings {

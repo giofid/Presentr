@@ -23,7 +23,7 @@ public enum ModalCenterPosition {
     case center
     case topCenter
     case bottomCenter
-    case bottom(percentage: Float, fixedWidth: Bool)
+    case bottom(percentage: CGFloat, fixedWidth: Bool)
     case custom(centerPoint: CGPoint)
     case customOrigin(origin: CGPoint)
 
