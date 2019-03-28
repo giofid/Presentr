@@ -377,7 +377,7 @@ fileprivate extension PresentrController {
         guard let size = presentationType.size() else {
             if case .dynamic(let modalCenterPosition) = presentationType {
                 presentedViewController.view.layoutIfNeeded()
-                let height = floor(presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height)
+                let height = ceil(presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height)
                 if case .bottom(let percentage, _) = modalCenterPosition {
                     var safeAreaInset: CGFloat = 0
                     if #available(iOS 11.0, *) {
@@ -480,7 +480,7 @@ extension PresentrController {
                 if #available(iOS 12.0, *) {
                     presentedViewController.additionalSafeAreaInsets = .zero
                 }
-                pannedHeight = floor(-translation.y / 10)
+                pannedHeight = ceil(-translation.y / 10)
                 presentedView?.frame = CGRect(x: presentedViewFrame.origin.x, y: presentedViewFrame.origin.y - pannedHeight, width: presentedViewFrame.width, height: presentedViewFrame.height + pannedHeight)
             }
         }
