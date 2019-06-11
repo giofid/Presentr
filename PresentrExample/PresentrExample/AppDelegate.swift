@@ -7,15 +7,67 @@
 //
 
 import UIKit
+import Presentr
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Presentr
+        customizePresentr()
         return true
+    }
+    
+    private func customizePresentr() {
+        // Presentr
+        let appearance = PresentrAppearance.standard
+        
+        appearance.backgroundColor = .gray
+        appearance.backgroundOpacity = 0.8
+        
+//        appearance.actionSheet.item.font = /* UIFont(name: "Lato-Bold", size: 12) ?? */ UIFont.boldSystemFont(ofSize: 12)
+        let font = UIFont.boldSystemFont(ofSize: 12)
+        if #available(iOS 11.0, *) {
+            appearance.actionSheet.item.font = UIFontMetrics.init(forTextStyle: .caption1).scaledFont(for: font)
+        } else {
+            // Fallback on earlier versions
+            appearance.actionSheet.item.font = font
+        }
+        appearance.actionSheet.item.textColor = .black
+        appearance.actionSheet.item.height = 58
+        let font15 = UIFont.boldSystemFont(ofSize: 15)
+        if #available(iOS 11.0, *) {
+            appearance.actionSheet.title.font = UIFontMetrics.init(forTextStyle: .caption1).scaledFont(for: font15)
+        } else {
+            // Fallback on earlier versions
+            appearance.actionSheet.item.font = font15
+        }
+        let font12 = UIFont.systemFont(ofSize: 12)
+        if #available(iOS 11.0, *) {
+            appearance.actionSheet.title.messageTextFont = UIFontMetrics.init(forTextStyle: .caption1).scaledFont(for: font12)
+        } else {
+            // Fallback on earlier versions
+            appearance.actionSheet.item.font = font12
+        }
+//        appearance.actionSheet.title.font = /* UIFont(name: "Lato-Bold", size: 15) ?? */ UIFont.boldSystemFont(ofSize: 15)
+//        appearance.actionSheet.title.messageTextFont = /* UIFont(name: "Lato-Regular", size: 12) ?? */ UIFont.systemFont(ofSize: 12)
+        
+        appearance.alert.actionsAxis = .vertical
+        appearance.alert.title.font = UIFont.systemFont(ofSize: 17)
+        appearance.alert.body.font = UIFont.systemFont(ofSize: 15)
+        appearance.alert.title.textColor = .darkGray
+        appearance.alert.body.textColor = .black
+        appearance.alert.backgroundColor = .gray
+        appearance.alert.button.font = UIFont.systemFont(ofSize: 12)
+        appearance.alert.button.textColor = .black
+        appearance.alert.button.borderWidth = 0.5
+        appearance.alert.button.borderColor = #colorLiteral(red: 0.8549019608, green: 0.8549019608, blue: 0.8549019608, alpha: 1)
+        appearance.alert.button.cornerRadius = 4
+        appearance.alert.defaultButton.font = UIFont.boldSystemFont(ofSize: 12)
+        appearance.alert.defaultButton.cornerRadius = 4
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

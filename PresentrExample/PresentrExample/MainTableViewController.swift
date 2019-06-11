@@ -11,6 +11,8 @@ import Presentr
 
 enum ExampleSection {
 
+    case uikit
+    case actionsheet
     case alert
     case popup
     case topHalf
@@ -19,13 +21,17 @@ enum ExampleSection {
     case other
 
     static var allSections: [ExampleSection] {
-        return [.alert, .popup, .topHalf, .bottomHalf, .advanced, .other]
+        return [.uikit, .actionsheet, .alert, .popup, .topHalf, .bottomHalf, .advanced, .other]
     }
 
     var items: [ExampleItem] {
         switch self {
+        case .uikit:
+            return [.alert, .uiAlertWithTextField, .actionSheet]
+        case .actionsheet:
+            return [.menuDefault, .actionSheetDefault]
         case .alert:
-            return [.alertDefault, .alertCustom, .alertWithout]
+            return [.alertDefault, .alertWithTextField, .alertWithActivityIndicator, .alertCustom, .alertWithout]
         case .popup:
             return [.popupDefault, .popupCustom]
         case .topHalf:
@@ -43,7 +49,16 @@ enum ExampleSection {
 
 enum ExampleItem: String {
 
+    case alert = "UIKit default alert"
+    case uiAlertWithTextField = "UIKit alert with text field"
+    case actionSheet = "UIKit default actionSheet"
+    
+    case menuDefault = "Menù with default animation"
+    case actionSheetDefault = "Actionsheet with default animation"
+    
     case alertDefault = "Alert with default animation"
+    case alertWithTextField = "Alert with text field"
+    case alertWithActivityIndicator = "Alert with activity indicator"
     case alertCustom = "Alert with custom animation"
     case alertWithout = "Alert without animation"
 
@@ -71,8 +86,23 @@ enum ExampleItem: String {
 
     var action: Selector {
         switch self {
+        case .alert:
+            return #selector(MainTableViewController.uikitAlert)
+        case .uiAlertWithTextField:
+            return #selector(MainTableViewController.uikitAlertWithTextField)
+        case .actionSheet:
+            return #selector(MainTableViewController.uikitActionSheet)
+            
+        case .menuDefault:
+            return #selector(MainTableViewController.menuDefault)
+        case .actionSheetDefault:
+            return #selector(MainTableViewController.actionSheetDefault)
         case .alertDefault:
             return #selector(MainTableViewController.alertDefault)
+        case .alertWithTextField:
+            return #selector(MainTableViewController.alertWithTextField)
+        case .alertWithActivityIndicator:
+            return #selector(MainTableViewController.alertWithActivityIndicator)
         case .alertCustom:
             return #selector(MainTableViewController.alertCustom)
         case .alertWithout:
@@ -103,8 +133,7 @@ enum ExampleItem: String {
             return #selector(MainTableViewController.keyboardTranslationTest)
         case .customBackground:
             return #selector(MainTableViewController.customBackgroundPresentation)
-
-
+            
         case .custom:
             return #selector(MainTableViewController.customPresentation)
         case .customAnimation:
@@ -131,6 +160,36 @@ class MainTableViewController: UITableViewController {
         return presenter
     }()
 
+    let menuPresenter: Presentr = {
+        let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: false)
+        let presentationType = PresentationType.dynamic(center: center)
+        let presenter = Presentr(presentationType: presentationType)
+        
+        presenter.appearance.contentInset = 0
+        presenter.appearance.roundCorners = false
+        presenter.dismissOnSwipe = true
+        presenter.appearance.actionSheet.item.textAlignment = .left
+        presenter.appearance.actionSheet.header.textAlignment = .left
+        presenter.appearance.actionSheet.header.font = UIFont.preferredFont(forTextStyle: .body)
+        presenter.appearance.actionSheet.header.detailTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        presenter.appearance.actionSheet.item.font = UIFont.preferredFont(forTextStyle: .caption2)
+        return presenter
+    }()
+    
+    let actionSheetPresenter: Presentr = {
+        let center = ModalCenterPosition.bottom(percentage: 0.8, fixedWidth: true)
+        let presentationType = PresentationType.dynamic(center: center)
+        
+        let presenter = Presentr(presentationType: presentationType)
+        presenter.dismissOnSwipe = false
+        presenter.appearance.actionSheet.item.textAlignment = .center
+        presenter.appearance.actionSheet.header.textAlignment = .center
+        presenter.appearance.actionSheet.title.font = UIFont.preferredFont(forTextStyle: .body)
+        presenter.appearance.actionSheet.item.font = UIFont.preferredFont(forTextStyle: .caption2)
+        presenter.appearance.actionSheet.title.messageTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        return presenter
+    }()
+    
     let dynamicSizePresenter: Presentr = {
         let presentationType = PresentationType.dynamic(center: .center)
         let presenter = Presentr(presentationType: presentationType)
@@ -146,9 +205,9 @@ class MainTableViewController: UITableViewController {
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVerticalFromTop
         customPresenter.dismissTransitionType = .crossDissolve
-        customPresenter.roundCorners = false
-        customPresenter.backgroundColor = .green
-        customPresenter.backgroundOpacity = 0.5
+        customPresenter.appearance.roundCorners = false
+        customPresenter.appearance.backgroundColor = .green
+        customPresenter.appearance.backgroundOpacity = 0.5
         customPresenter.dismissOnSwipe = true
         return customPresenter
     }()
@@ -163,27 +222,91 @@ class MainTableViewController: UITableViewController {
         customPresenter.transitionType = .coverVerticalFromTop
         customPresenter.dismissTransitionType = .coverVerticalFromTop
         
-        customPresenter.backgroundColor = .yellow
-        customPresenter.backgroundOpacity = 0.5
+        customPresenter.appearance.backgroundColor = .yellow
+        customPresenter.appearance.backgroundOpacity = 0.5
         
         let view = UIImageView(image: #imageLiteral(resourceName: "Logo"))
         view.frame = CGRect(x: UIScreen.main.bounds.width / 2 - 50, y: UIScreen.main.bounds.height / 2 - 50, width: 100, height: 100)
         view.contentMode = .scaleAspectFit
-        customPresenter.customBackgroundView = view
+        customPresenter.appearance.customBackgroundView = view
 
         return customPresenter
     }()
 
     lazy var alertController: AlertViewController = {
-        let alertController = Presentr.alertViewController(title: "Are you sure? ⚠️", body: "This action can't be undone!")
-        let cancelAction = AlertAction(title: "NO, SORRY! 😱", style: .cancel) { alert in
+        let alertController = AlertViewController(title: "Gli operatori non sono attualmente disponibili", body: "Ti suggeriamo di prenotare la tua sessione di riconoscimento nel giorno e ora che preferisci.")
+        let appearance = alertController.appearance
+        appearance.actionsAxis = .vertical
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.cornerRadius = 4
+        let cancelAction = AlertAction(title: "Riprova più tardi", style: .cancel) { alert in
             print("CANCEL!!")
         }
-        let okAction = AlertAction(title: "DO IT! 🤘", style: .destructive) { alert in
+        let okAction = AlertAction(title: "Prenota la tua sessione", style: .default) { alert in
             print("OK!!")
         }
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        return alertController
+    }()
+    
+    lazy var alertWithTextFieldController: AlertViewController = {
+        let alertController = AlertViewController(title: "Inserisci le credenziali che hai ricevuto per email e per SMS", body: nil)
+        let appearance = alertController.appearance
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.button.textColor = .darkGray
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.textColor = .darkGray
+        let cancelAction = AlertAction(title: "NO, SORRY!", style: .default) { alert in
+            print("CANCEL!!")
+        }
+//        cancelAction.isEnabled = false
+        let okAction = AlertAction(title: "DO IT!", style: .destructive) { alert in
+            alertController.showError(message: "ciao")
+            print("OK!!")
+        }
+        okAction.autoDismiss = false
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "This's a placeholder"
+            textField.delegate = self
+        })
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "This's another placeholder"
+        })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
+        return alertController
+    }()
+    
+    lazy var alertWithActivityIndicatorController: AlertViewController = {
+        let alertController = AlertViewController(title: nil, body: "Verifica in corso...", style: .activityIndicator)
+        let appearance = alertController.appearance
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.activityIndicator.color = .purple
+        appearance.activityIndicator.type = .circleStrokeSpin
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.button.textColor = .darkGray
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.textColor = .darkGray
+        let cancelAction = AlertAction(title: "Annulla", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        alertController.addAction(cancelAction)
         return alertController
     }()
 
@@ -231,7 +354,7 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         handleItem(itemFor(indexPath: indexPath))
-        tableView.deselectRow(at: indexPath, animated: true)
+//        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     // MARK: ExampleItem handling
@@ -251,14 +374,190 @@ class MainTableViewController: UITableViewController {
 
 extension MainTableViewController {
 
+    @objc func uikitAlert() {
+        let alertController = UIAlertController(title: "Gli operatori non sono attualmente disponibili", message: "Ti suggeriamo di prenotare la tua sessione di riconoscimento nel giorno e ora che preferisci.", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Riprova più tardi", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        let okAction = UIAlertAction(title: "Prenota la tua sessione", style: .cancel) { alert in
+            print("OK!!")
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func uikitAlertWithTextField() {
+        let alertController = UIAlertController(title: "Are you sure?", message: "", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .default) { alert in
+            print("CANCEL!!")
+        }
+        let okAction = UIAlertAction(title: "DO IT!", style: .cancel) { alert in
+            print("OK!!")
+        }
+        let ok2Action = UIAlertAction(title: "DO IT!", style: .default) { alert in
+            print("OK!!")
+        }
+        let ok3Action = UIAlertAction(title: "DO IT!", style: .default) { alert in
+            print("OK!!")
+        }
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Nome della cartella"
+            textField.delegate = self
+        }
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Nome della cartella"
+            textField.delegate = self
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.addAction(ok2Action)
+        alertController.addAction(ok3Action)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc func uikitActionSheet() {
+        let alertController = UIAlertController(title: "Are you sure?", message: "a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z", preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "NO, SORRY!", style: .cancel) { alert in
+            print("CANCEL!!")
+        }
+        let okAction = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok1Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok2Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok3Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok4Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        let ok5Action = UIAlertAction(title: "DO IT!", style: .destructive) { alert in
+            print("OK!!")
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        alertController.addAction(ok1Action)
+        alertController.addAction(ok2Action)
+        alertController.addAction(ok3Action)
+        alertController.addAction(ok4Action)
+        alertController.addAction(ok5Action)
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: self.view.center, size: CGSize(width: 300, height: 200))
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     // MARK: Alert
 
+    @objc func menuDefault() {
+        let header = ActionSheetHeader(title: "pippo.pdf", subtitle: "sottotitolo", image: nil, accessoryImage: nil)
+        let actionSheetController = ActionSheetController(header: header)
+        let appearance = actionSheetController.appearance
+        appearance.item.shouldShowSeparator = false
+//        appearance.header.font = UIFont.preferredFont(forTextStyle: .body)
+//        appearance.item.font = UIFont.preferredFont(forTextStyle: .body)
+//        appearance.header.detailTextFont = UIFont.preferredFont(forTextStyle: .caption2)
+        actionSheetController.addAction(ActionSheetAction(title: "action 1", image: #imageLiteral(resourceName: "qrcode"), handler: { (action) in
+            print("action 1")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
+            print("action 2")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 3", image: nil, handler: { (action) in
+            print("action 3")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 4", image: nil, handler: { (action) in
+            print("action 4")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 5", image: nil, handler: { (action) in
+            print("action 5")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 6", image: nil, handler: { (action) in
+            print("action 6")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 7", image: nil, handler: { (action) in
+            print("action 7")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 8", image: nil, handler: { (action) in
+            print("action 8")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 9", image: nil, handler: { (action) in
+            print("action 9")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 10", image: nil, handler: { (action) in
+            print("action 10")
+        }))
+        customPresent(actionSheetController, presentr: menuPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+    }
+    
+    @objc func actionSheetDefault() {
+        let actionSheetController = ActionSheetController(title: "Elimina?", message: "a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z a b c d e f g h i l m n o p q r s t u v z", cancelAction: ActionSheetAction(title: "Cancel", image: nil, handler: nil))
+        actionSheetController.addAction(ActionSheetAction(title: "action 1", image: nil, handler: { (action) in
+            print("action 1")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 2", image: nil, handler: { (action) in
+            print("action 2")
+        }))
+        actionSheetController.addAction(ActionSheetAction(title: "action 3", image: nil, handler: { (action) in
+            print("action 3")
+        }))
+        customPresent(actionSheetController, presentr: actionSheetPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
+        
+        
+        
+//        let title = NSLocalizedString("Delete account", tableName: "Targetable", comment: "Delete Account ActionSheet Title")
+//        let templateMessage = NSLocalizedString("Are you sure you want to permanently delete the account %@?", tableName: "Targetable", comment: "Confirm Account Deletion ActionSheet Message")
+//        let message = String.localizedStringWithFormat(templateMessage, "account.usage")
+//        let cancelAction = ActionSheetAction(title: NSLocalizedString("CANCEL", comment: "Cancel Action"), image: nil, handler: nil)
+//        let actionSheetController = ActionSheetController(title: title, message: message, cancelAction: cancelAction)
+//        let deleteAction = ActionSheetAction(title: NSLocalizedString("DELETE", comment: "Delete Action"), image: nil, handler: { _ in
+//
+//        })
+//        deleteAction.appearance.textColor = .red
+//        actionSheetController.addAction(deleteAction)
+//        self.customPresent(actionSheetController, presentr: actionSheetPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true, completion: nil)
+        
+    }
+    
     @objc func alertDefault() {
-        presenter.presentationType = .alert
-        presenter.transitionType = nil
-        presenter.dismissTransitionType = nil
-        presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
+        presenter.appearance.contentInset = 15
+        presenter.appearance.roundCorners = true
+        presenter.appearance.cornerRadius = 6
+        presenter.keyboardTranslationType = .stickToTop
+        presenter.appearance.alert.button.minimumScaleFactor = 0.5
+        customPresent(alertController, presentr: presenter, animated: true)
+    }
+    
+    @objc func alertWithTextField() {
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
+        customPresent(alertWithTextFieldController, presentr: alertPresentr, animated: true)
+    }
+    
+    @objc func alertWithActivityIndicator() {
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
+        presenter.appearance.alert.activityIndicator.type = .ballClipRotate
+        customPresent(alertWithActivityIndicatorController, presentr: presenter, animated: true)
     }
 
     @objc func alertCustom() {
@@ -266,13 +565,13 @@ extension MainTableViewController {
         presenter.transitionType = .coverHorizontalFromLeft
         presenter.dismissTransitionType = .coverHorizontalFromRight
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func alertDefaultWithoutAnimation() {
         presenter.presentationType = .alert
         presenter.dismissAnimated = false
-        customPresentViewController(presenter, viewController: alertController, animated: false, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: false)
     }
 
     // MARK: Popup
@@ -282,7 +581,7 @@ extension MainTableViewController {
         presenter.transitionType = nil
         presenter.dismissTransitionType = nil
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func popupCustom() {
@@ -290,7 +589,7 @@ extension MainTableViewController {
         presenter.transitionType = .coverHorizontalFromRight
         presenter.dismissTransitionType = .coverVerticalFromTop
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     // MARK: Top Half
@@ -300,7 +599,7 @@ extension MainTableViewController {
         presenter.transitionType = nil
         presenter.dismissTransitionType = nil
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func topHalfCustom() {
@@ -308,7 +607,7 @@ extension MainTableViewController {
         presenter.transitionType = .coverHorizontalFromLeft
         presenter.dismissTransitionType = .coverVerticalFromTop
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     // MARK: Bottom Half
@@ -318,7 +617,7 @@ extension MainTableViewController {
         presenter.transitionType = nil
         presenter.dismissTransitionType = nil
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func bottomHalfCustom() {
@@ -326,7 +625,7 @@ extension MainTableViewController {
         presenter.transitionType = .coverHorizontalFromLeft
         presenter.transitionType = .crossDissolve
         presenter.dismissAnimated = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     // MARK: Other
@@ -335,7 +634,7 @@ extension MainTableViewController {
         presenter.presentationType = .fullScreen
         presenter.transitionType = .coverVertical
         presenter.dismissTransitionType = .crossDissolve
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func fullScreenPresentationFlip() {
@@ -346,7 +645,7 @@ extension MainTableViewController {
     }
 
     @objc func customBackgroundPresentation() {
-        customPresentViewController(customBackgroundPresenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: customBackgroundPresenter, animated: true)
     }
 
     @objc func keyboardTranslationTest() {
@@ -355,27 +654,27 @@ extension MainTableViewController {
         presenter.dismissTransitionType = nil
         presenter.keyboardTranslationType = .compress
         presenter.dismissOnSwipe = true
-        customPresentViewController(presenter, viewController: popupViewController, animated: true, completion: nil)
+        customPresent(popupViewController, presentr: presenter, animated: true)
     }
 
     @objc func backgroundBlurTest() {
         presenter.presentationType = .alert
-        presenter.blurBackground = true
+        presenter.appearance.blurBackground = true
         alertDefault()
-        presenter.blurBackground = false
+        presenter.appearance.blurBackground = false
     }
 
     // MARK: Advanced
 
     @objc func customPresentation() {
-        customPresentViewController(customPresenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: customPresenter, animated: true)
     }
 
     @objc func customAnimation() {
         presenter.presentationType = .alert
         presenter.transitionType = TransitionType.custom(CustomAnimation())
         presenter.dismissTransitionType = TransitionType.custom(CustomAnimation())
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func modifiedAnimation() {
@@ -383,7 +682,7 @@ extension MainTableViewController {
         let modifiedAnimation = CrossDissolveAnimation(options: .normal(duration: 1.0))
         presenter.transitionType = TransitionType.custom(modifiedAnimation)
         presenter.dismissTransitionType = TransitionType.custom(modifiedAnimation)
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func coverVerticalWithSpring() {
@@ -395,17 +694,23 @@ extension MainTableViewController {
         let coverVerticalWithSpring = TransitionType.custom(animation)
         presenter.transitionType = coverVerticalWithSpring
         presenter.dismissTransitionType = coverVerticalWithSpring
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func dynamicSize() {
         let dynamicVC = storyboard!.instantiateViewController(withIdentifier: "DynamicViewController")
-        customPresentViewController(dynamicSizePresenter, viewController: dynamicVC, animated: true, completion: nil)
+        customPresent(dynamicVC, presentr: dynamicSizePresenter, animated: true)
     }
 
     @objc func currentContext() {
         let splitVC = storyboard!.instantiateViewController(withIdentifier: "SplitViewController")
         navigationController?.pushViewController(splitVC, animated: true)
     }
+}
 
+extension MainTableViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print(textField.delegate!)
+        return true
+    }
 }

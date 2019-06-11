@@ -10,7 +10,7 @@ import Foundation
 
 /// Basic Presentr type. Its job is to describe the 'type' of presentation. The type describes the size and position of the presented view controller.
 ///
-/// - alert: This is a small 270 x 180 alert which is the same size as the default iOS alert.
+/// - alert: This is a small 285 x 180 alert which is the same size as the default iOS alert.
 /// - popup: This is a average/default size 'popup' modal.
 /// - topHalf: This takes up half of the screen, on the top side.
 /// - bottomHalf: This takes up half of the screen, on the bottom side.
@@ -33,7 +33,7 @@ public enum PresentationType {
     func size() -> (width: ModalSize, height: ModalSize)? {
         switch self {
         case .alert:
-            return (.custom(size: 270), .custom(size: 180))
+            return (.custom(size: 285), .custom(size: 180))
         case .popup:
             return (.default, .default)
         case .topHalf, .bottomHalf:
@@ -79,10 +79,19 @@ public enum PresentationType {
         }
     }
 
+    var shouldAdaptPresentationStyle: Bool {
+        switch self {
+        case .alert, .popup, .fullScreen, .dynamic(center: .center):
+            return false
+        default:
+            return true
+        }
+    }
+
     /// Default round corners setting.
     var shouldRoundCorners: Bool {
         switch self {
-        case .alert, .popup:
+        case .alert, .popup, .dynamic(_):
             return true
         default:
             return false

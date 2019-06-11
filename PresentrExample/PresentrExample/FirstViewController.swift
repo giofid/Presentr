@@ -19,7 +19,7 @@ class FirstViewController: UIViewController {
     }()
 
     var alertController: AlertViewController {
-        let alertController = Presentr.alertViewController(title: "Are you sure? ⚠️", body: "This action can't be undone!")
+        let alertController = AlertViewController(title: "Are you sure? ⚠️", body: "This action can't be undone!")
         let cancelAction = AlertAction(title: "NO, SORRY! 😱", style: .cancel) { alert in
             print("CANCEL!!")
         }
@@ -42,7 +42,6 @@ class FirstViewController: UIViewController {
     @IBAction func didSelectShowAlert(_ sender: Any) {
         presenter.viewControllerForContext = self
         presenter.shouldIgnoreTapOutsideContext = true
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
-
 }

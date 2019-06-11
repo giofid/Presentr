@@ -12,15 +12,14 @@ import UIKit
 public enum PresentrConstants {
 
     public enum Values {
-        public static let defaultSideMargin: Float = 30.0
-        public static let defaultHeightPercentage: Float = 0.66
+        public static let defaultSideMargin: CGFloat = 30.0
+        public static let defaultHeightPercentage: CGFloat = 0.66
     }
 
     public enum Strings {
         public static let alertTitle = "Alert"
         public static let alertBody = "This is an alert."
     }
-    
 }
 
 public enum DismissSwipeDirection {
@@ -62,15 +61,6 @@ public class Presentr: NSObject {
     /// The type of transition animation to be used to dismiss the view controller. This is optional, if not provided transitionType or default value will be used.
     public var dismissTransitionType: TransitionType?
 
-    /// Should the presented controller have rounded corners. Each presentation type has its own default if nil.
-    public var roundCorners: Bool?
-
-    /// Radius of rounded corners for presented controller if roundCorners is true. Default is 4.
-    public var cornerRadius: CGFloat = 4
-
-    /// Shadow settings for presented controller.
-    public var dropShadow: PresentrShadow?
-
     /// Should the presented controller dismiss on background tap. Default is true.
     public var dismissOnTap = true
 
@@ -83,20 +73,9 @@ public class Presentr: NSObject {
     /// Should the presented controller use animation when dismiss on background tap or swipe. Default is true.
     public var dismissAnimated = true
 
-    /// Color of the background. Default is Black.
-    public var backgroundColor = UIColor.black
-
-    /// Opacity of the background. Default is 0.7.
-    public var backgroundOpacity: Float = 0.7
-
-    /// Should the presented controller blur the background. Default is false.
-    public var blurBackground = false
-
-    /// The type of blur to be applied to the background. Ignored if blurBackground is set to false. Default is Dark.
-    public var blurStyle: UIBlurEffectStyle = .dark
-
-    /// A custom background view to be added on top of the regular background view.
-    public var customBackgroundView: UIView?
+    open lazy var appearance: PresentrAppearance = {
+        return PresentrAppearance(copy: .standard)
+    }()
     
     /// How the presented view controller should respond to keyboard presentation.
     public var keyboardTranslationType: KeyboardTranslationType = .none
@@ -124,37 +103,57 @@ public class Presentr: NSObject {
         self.presentationType = presentationType
     }
 
-    // MARK: Class Helper Methods
-
-    /**
-     Public helper class method for creating and configuring an instance of the 'AlertViewController'
-
-     - parameter title: Title to be used in the Alert View Controller.
-     - parameter body: Body of the message to be displayed in the Alert View Controller.
-
-     - returns: Returns a configured instance of 'AlertViewController'
-     */
-    public static func alertViewController(title: String = PresentrConstants.Strings.alertTitle, body: String = PresentrConstants.Strings.alertBody) -> AlertViewController {
-        let alertController = AlertViewController()
-        alertController.titleText = title
-        alertController.bodyText = body
-        return alertController
-    }
-
     // MARK: Private Methods
 
+    fileprivate var presentingViewController: UIViewController!
+    fileprivate var presentedViewController: UIViewController!
+    fileprivate var  sourceView: UIView?
+    fileprivate var  barButtonItem: UIBarButtonItem?
+    
     /**
-     Private method for presenting a view controller, using the custom presentation. Called from the UIViewController extension.
-
      - parameter presentingVC: The view controller which is doing the presenting.
      - parameter presentedVC:  The view controller to be presented.
      - parameter animated:     Animation boolean.
      - parameter completion:   Completion block.
      */
-    fileprivate func presentViewController(presentingViewController presentingVC: UIViewController, presentedViewController presentedVC: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        presentedVC.transitioningDelegate = self
+    private func presentViewController(presentingViewController presentingVC: UIViewController, presentedViewController presentedVC: UIViewController, animated: Bool, completion: (() -> Void)?) {
         presentedVC.modalPresentationStyle = .custom
+        presentedVC.transitioningDelegate = self
         presentingVC.present(presentedVC, animated: animated, completion: completion)
+    }
+    
+    /**
+     Private method for presenting a view controller, using the custom presentation. Called from the UIViewController extension.
+     
+     - parameter presentingVC: The view controller which is doing the presenting.
+     - parameter presentedVC:  The view controller to be presented.
+     - sourceView: The view containing the anchor rectangle for the popover.
+     - parameter animated:     Animation boolean.
+     - parameter completion:   Completion block.
+     */
+    fileprivate func presentViewController(presentingViewController presentingVC: UIViewController, presentedViewController presentedVC: UIViewController, from sourceView: UIView?, animated: Bool, completion: (() -> Void)?) {
+        self.presentedViewController = presentedVC
+        self.presentingViewController = presentingVC
+        self.sourceView = sourceView
+        self.barButtonItem = nil
+        presentViewController(presentingViewController: presentingVC, presentedViewController: presentedVC, animated: animated, completion: completion)
+    }
+    
+    /**
+     Private method for presenting a view controller, using the custom presentation. Called from the UIViewController extension.
+     
+     - parameter presentingVC: The view controller which is doing the presenting.
+     - parameter presentedVC:  The view controller to be presented.
+     - barButtonItem: The bar button item on which to anchor the popover.
+     - parameter animated:     Animation boolean.
+     - parameter completion:   Completion block.
+     */
+    fileprivate func presentViewController(presentingViewController presentingVC: UIViewController, presentedViewController presentedVC: UIViewController, from barButtonItem: UIBarButtonItem?, animated: Bool, completion: (() -> Void)?) {
+        self.presentedViewController = presentedVC
+        self.presentingViewController = presentingVC
+        self.barButtonItem = barButtonItem
+        self.sourceView = nil
+        presentViewController(presentingViewController: presentingVC, presentedViewController: presentedVC, animated: animated, completion: completion)
     }
 
     fileprivate var transitionForPresent: TransitionType {
@@ -164,7 +163,6 @@ public class Presentr: NSObject {
     fileprivate var transitionForDismiss: TransitionType {
         return dismissTransitionType ?? transitionType ?? presentationType.defaultTransitionType()
     }
-
 }
 
 // MARK: - UIViewControllerTransitioningDelegate
@@ -172,7 +170,7 @@ public class Presentr: NSObject {
 extension Presentr: UIViewControllerTransitioningDelegate {
 
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return presentationController(presented, presenting: presenting)
+        return presentationController(presented, presenting: source)
     }
 
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -182,48 +180,99 @@ extension Presentr: UIViewControllerTransitioningDelegate {
     public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return transitionForDismiss.animation()
     }
+    
+//    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+//        guard let presentationController = presentedViewController.presentationController as? PresentrController,
+//            let interactionController = presentationController.swipeInteractionController,
+//            interactionController.interactionInProgress
+//            else {
+//                return nil
+//        }
+//        return interactionController
+//    }
 
     // MARK: - Private Helper's
 
-    fileprivate func presentationController(_ presented: UIViewController, presenting: UIViewController?) -> PresentrController {
-        return PresentrController(presentedViewController: presented,
-                                    presentingViewController: presenting,
-                                    presentationType: presentationType,
-                                    roundCorners: roundCorners,
-                                    cornerRadius: cornerRadius,
-                                    dropShadow: dropShadow,
-                                    dismissOnTap: dismissOnTap,
-                                    dismissOnSwipe: dismissOnSwipe,
-                                    dismissOnSwipeDirection: dismissOnSwipeDirection,
-                                    backgroundColor: backgroundColor,
-                                    backgroundOpacity: backgroundOpacity,
-                                    blurBackground: blurBackground,
-                                    blurStyle: blurStyle,
-                                    customBackgroundView: customBackgroundView,
-                                    keyboardTranslationType:  keyboardTranslationType,
-                                    dismissAnimated: dismissAnimated,
-                                    contextFrameForPresentation: contextFrameForPresentation,
-                                    shouldIgnoreTapOutsideContext: shouldIgnoreTapOutsideContext)
+    fileprivate func presentationController(_ presented: UIViewController, presenting: UIViewController?) -> UIPresentationController {
+        switch presented {
+        case let actionSheetController as ActionSheetController:
+            actionSheetController.appearance.applyAppearance(appearance.actionSheet)
+        case let alertViewController as AlertViewController:
+            alertViewController.appearance.applyAppearance(appearance.alert)
+        default:
+            break
+        }
+        if presentationType.shouldAdaptPresentationStyle && presenting?.traitCollection.horizontalSizeClass == .regular &&  presenting?.traitCollection.verticalSizeClass == .regular {
+            let popoverPresentrController = PopoverPresentrController(presentedViewController: presented, presenting: presenting)
+            popoverPresentrController.adaptivePresentationDelegate = self
+            popoverPresentrController.sourceView = sourceView
+            popoverPresentrController.barButtonItem = barButtonItem
+            popoverPresentrController.sourceRect = sourceView?.bounds ?? CGRect()
+            return popoverPresentrController
+        } else {
+            let presentrController = PresentrController(presentedViewController: presented,
+                                                        presentingViewController: presenting,
+                                                        presentationType: presentationType,
+                                                        appearance: appearance,
+                                                        dismissOnTap: dismissOnTap,
+                                                        dismissOnSwipe: dismissOnSwipe,
+                                                        dismissOnSwipeDirection: dismissOnSwipeDirection,
+                                                        keyboardTranslationType:  keyboardTranslationType,
+                                                        dismissAnimated: dismissAnimated,
+                                                        contextFrameForPresentation: contextFrameForPresentation,
+                                                        shouldIgnoreTapOutsideContext: shouldIgnoreTapOutsideContext)
+            presentrController.adaptivePresentationDelegate = self
+            return presentrController
+        }
     }
+}
 
+extension Presentr: AdaptivePresentationDelegate {
+    func willTransition(presentationController: UIPresentationController, to newCollection: UITraitCollection) {
+        presentedViewController.dismiss(animated: false) {
+            if let sourceView = self.sourceView {
+                self.presentViewController(presentingViewController: self.presentingViewController, presentedViewController: self.presentedViewController, from: sourceView, animated: false, completion: nil)
+            } else {
+                self.presentViewController(presentingViewController: self.presentingViewController, presentedViewController: self.presentedViewController, from: self.barButtonItem, animated: false, completion: nil)
+            }
+        }
+    }
 }
 
 // MARK: - UIViewController extension to provide customPresentViewController(_:viewController:animated:completion:) method
 
-public extension UIViewController {
 
+public extension UIViewController {
+    
     /// Present a view controller with a custom presentation provided by the Presentr object.
     ///
     /// - Parameters:
+    ///   - viewControllerToPresent: The view controller to be presented.
     ///   - presentr: Presentr object used for custom presentation.
-    ///   - viewController: The view controller to be presented.
+    ///   - sourceView: The view containing the anchor rectangle for the popover.
     ///   - animated: Animation setting for the presentation.
     ///   - completion: Completion handler.
-    func customPresentViewController(_ presentr: Presentr, viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    func customPresent(_ viewControllerToPresent: UIViewController, presentr: Presentr, from sourceView: UIView? = nil, animated: Bool, completion: (() -> Void)? = nil) {
         presentr.presentViewController(presentingViewController: self,
-                                       presentedViewController: viewController,
+                                       presentedViewController: viewControllerToPresent,
+                                       from: sourceView,
                                        animated: animated,
                                        completion: completion)
     }
-
+    
+    /// Present a view controller with a custom presentation provided by the Presentr object.
+    ///
+    /// - Parameters:
+    ///   - viewControllerToPresent: The view controller to be presented.
+    ///   - presentr: Presentr object used for custom presentation.
+    ///   - barButtonItem: The bar button item on which to anchor the popover.
+    ///   - animated: Animation setting for the presentation.
+    ///   - completion: Completion handler.
+    func customPresent(_ viewControllerToPresent: UIViewController, presentr: Presentr, from barButtonItem: UIBarButtonItem, animated: Bool, completion: (() -> Void)? = nil) {
+        presentr.presentViewController(presentingViewController: self,
+                                       presentedViewController: viewControllerToPresent,
+                                       from: barButtonItem,
+                                       animated: animated,
+                                       completion: completion)
+    }
 }

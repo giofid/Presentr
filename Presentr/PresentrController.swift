@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol AdaptivePresentationDelegate: NSObjectProtocol {
+    func willTransition(presentationController: UIPresentationController,to newCollection: UITraitCollection)
+}
+
 /// Presentr's custom presentation controller. Handles the position and sizing for the view controller's.
 class PresentrController: UIPresentationController, UIAdaptivePresentationControllerDelegate {
     
@@ -37,6 +41,11 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
     /// A custom background view to be added on top of the regular background view.
     let customBackgroundView: UIView?
+    
+    /// A custom background view to be added on top of the regular background view.
+    let contentInset: CGFloat
+    
+    weak var adaptivePresentationDelegate: AdaptivePresentationDelegate?
 
     fileprivate var conformingPresentedController: PresentrDelegate? {
         return presentedViewController as? PresentrDelegate
@@ -44,7 +53,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
     fileprivate var shouldObserveKeyboard: Bool {
         return conformingPresentedController != nil ||
-            (keyboardTranslationType != .none && presentationType == .popup) // TODO: Work w/other types?
+            (keyboardTranslationType != .none/* && presentationType == .popup*/) // TODO: Work w/other types?
     }
 
     fileprivate var containerFrame: CGRect {
@@ -63,11 +72,11 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
     // MARK: Swipe gesture
 
-    fileprivate var presentedViewIsBeingDissmissed: Bool = false
-
     fileprivate var presentedViewFrame: CGRect = .zero
 
     fileprivate var presentedViewCenter: CGPoint = .zero
+    
+    fileprivate var presentedViewSafeAreaInsets: UIEdgeInsets  = .zero
 
     fileprivate var latestShouldDismiss: Bool = true
 
@@ -78,23 +87,21 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     fileprivate lazy var shouldSwipeTop: Bool = {
         return self.dismissOnSwipeDirection == .default ? self.presentationType == .topHalf : self.dismissOnSwipeDirection == .top
     }()
+    
+    fileprivate var closeSpeed: CGFloat = 0.0
+    fileprivate var closePercent: CGFloat = 0.0
+    
+    var pannedHeight: CGFloat = 0
 
     // MARK: - Init
 
     init(presentedViewController: UIViewController,
          presentingViewController: UIViewController?,
          presentationType: PresentationType,
-         roundCorners: Bool?,
-         cornerRadius: CGFloat,
-         dropShadow: PresentrShadow?,
+         appearance: PresentrAppearance,
          dismissOnTap: Bool,
          dismissOnSwipe: Bool,
          dismissOnSwipeDirection: DismissSwipeDirection,
-         backgroundColor: UIColor,
-         backgroundOpacity: Float,
-         blurBackground: Bool,
-         blurStyle: UIBlurEffectStyle,
-         customBackgroundView: UIView?,
          keyboardTranslationType: KeyboardTranslationType,
          dismissAnimated: Bool,
          contextFrameForPresentation: CGRect?,
@@ -108,13 +115,18 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
         self.dismissAnimated = dismissAnimated
         self.contextFrameForPresentation = contextFrameForPresentation
         self.shouldIgnoreTapOutsideContext = shouldIgnoreTapOutsideContext
-        self.customBackgroundView = customBackgroundView
+        self.customBackgroundView = appearance.customBackgroundView
+        self.contentInset = appearance.contentInset
 
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
         
-        setupBackground(backgroundColor, backgroundOpacity: backgroundOpacity, blurBackground: blurBackground, blurStyle: blurStyle)
-        setupCornerRadius(roundCorners: roundCorners, cornerRadius: cornerRadius)
-        addDropShadow(shadow: dropShadow)
+        if let delegate = presentedViewController as? AdaptivePresentedControllerDelegate {
+            delegate.adjustForStandardPresentation()
+        }
+        
+        setupBackground(appearance.backgroundColor, backgroundOpacity: appearance.backgroundOpacity, blurBackground: appearance.blurBackground, blurStyle: appearance.blurStyle)
+        setupCornerRadius(roundCorners: appearance.roundCorners, cornerRadius: appearance.cornerRadius)
+        addDropShadow(shadow: appearance.dropShadow)
         
         if dismissOnSwipe {
             setupDismissOnSwipe()
@@ -129,15 +141,32 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
     private func setupDismissOnSwipe() {
         let swipe = UIPanGestureRecognizer(target: self, action: #selector(presentedViewSwipe))
+        swipe.delegate = self
         presentedViewController.view.addGestureRecognizer(swipe)
+        addPanGestureToScrollableSubviews(of: presentedViewController.view)
     }
     
-    private func setupBackground(_ backgroundColor: UIColor, backgroundOpacity: Float, blurBackground: Bool, blurStyle: UIBlurEffectStyle) {
+    private func addPanGestureToScrollableSubviews(of view: UIView) {
+        let subviews = view.subviews
+        for v in subviews {
+            if v is UIScrollView {
+                let panGesture = UIPanGestureRecognizer()
+                panGesture.delegate = self
+                v.addGestureRecognizer(panGesture)
+                continue
+            }
+            addPanGestureToScrollableSubviews(of: v)
+        }
+    }
+    
+    private func setupBackground(_ backgroundColor: UIColor, backgroundOpacity: Float, blurBackground: Bool, blurStyle: UIBlurEffect.Style) {
         let tap = UITapGestureRecognizer(target: self, action: #selector(chromeViewTapped))
+        tap.delaysTouchesBegan = true
         chromeView.addGestureRecognizer(tap)
 
         if !shouldIgnoreTapOutsideContext {
             let tap = UITapGestureRecognizer(target: self, action: #selector(chromeViewTapped))
+             tap.delaysTouchesBegan = true
             backgroundView.addGestureRecognizer(tap)
         }
 
@@ -181,15 +210,34 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
     }
     
     fileprivate func registerKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWasShown(notification:)), name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWillHide(notification:)), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWasShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PresentrController.keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     fileprivate func removeObservers() {
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-
+    
+    private var presentingViewControllerTraitCollection: UITraitCollection?
+    
+    override var overrideTraitCollection: UITraitCollection? {
+        get {
+            let oldHorizontalSizeClass = presentingViewControllerTraitCollection?.horizontalSizeClass
+            let oldVerticalSizeClass = presentingViewControllerTraitCollection?.verticalSizeClass
+            let newHorizontalSizeClass = presentingViewController.traitCollection.horizontalSizeClass
+            let newVerticalSizeClass = presentingViewController.traitCollection.verticalSizeClass
+            let shouldNotify = ((oldHorizontalSizeClass == .regular && oldVerticalSizeClass == .regular) && (newHorizontalSizeClass != .regular || newVerticalSizeClass != .regular)) || ((newHorizontalSizeClass == .regular && newVerticalSizeClass == .regular) && (oldHorizontalSizeClass != .regular || oldVerticalSizeClass != .regular))
+            if shouldNotify && UIApplication.shared.applicationState != .background {
+                adaptivePresentationDelegate?.willTransition(presentationController: self, to: presentingViewController.traitCollection)
+            }
+            presentingViewControllerTraitCollection = presentingViewController.traitCollection
+            return super.overrideTraitCollection
+        }
+        set {
+            super.overrideTraitCollection = newValue
+        }
+    }
 }
 
 // MARK: - UIPresentationController
@@ -197,6 +245,10 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 extension PresentrController {
     
     // MARK: Presentation
+    
+    override var shouldPresentInFullscreen: Bool {
+        return UIDevice.current.userInterfaceIdiom == .phone
+    }
     
     override var frameOfPresentedViewInContainerView: CGRect {
         var presentedViewFrame = CGRect.zero
@@ -206,7 +258,7 @@ extension PresentrController {
         let origin: CGPoint
         // If the Presentation Type's calculate center point returns nil
         // this means that the user provided the origin, not a center point.
-        if let center = getCenterPointFromType() {
+        if let center = getCenterPointFromType(size: size) {
             origin = calculateOrigin(center, size: size)
         } else {
             origin = getOriginFromType() ?? CGPoint(x: 0, y: 0)
@@ -214,21 +266,21 @@ extension PresentrController {
         
         presentedViewFrame.size = size
         presentedViewFrame.origin = origin
-
+        
         return presentedViewFrame
     }
     
     override func size(forChildContentContainer container: UIContentContainer, withParentContainerSize parentSize: CGSize) -> CGSize {
         let width = getWidthFromType(parentSize)
         let height = getHeightFromType(parentSize)
-        return CGSize(width: CGFloat(width), height: CGFloat(height))
+        return CGSize(width: width, height: height)
     }
     
     override func containerViewWillLayoutSubviews() {
+        chromeView.frame = containerFrame
         guard !keyboardIsShowing else {
             return // prevent resetting of presented frame when the frame is being translated
         }
-        chromeView.frame = containerFrame
         presentedView!.frame = frameOfPresentedViewInContainerView
     }
     
@@ -295,39 +347,56 @@ extension PresentrController {
             backgroundView.passthroughViews = []
         }
     }
-
 }
 
 // MARK: - Sizing, Position
 
 fileprivate extension PresentrController {
 
-    func getWidthFromType(_ parentSize: CGSize) -> Float {
+    func getWidthFromType(_ parentSize: CGSize) -> CGFloat {
         guard let size = presentationType.size() else {
-            if case .dynamic = presentationType {
-                return Float(presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).width)
+            if case .dynamic(let modalCenterPosition) = presentationType {
+                if case .bottom(_ , let fixedWidth) = modalCenterPosition {
+                    if fixedWidth {
+                        return min(parentSize.width, parentSize.height) -  contentInset * 2
+                    } else {
+                        return parentSize.width - contentInset * 2
+                    }
+                } else {
+                    presentedViewController.view.layoutIfNeeded()
+                    return presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).width
+                }
             }
             return 0
         }
-
+        
         return size.width.calculateWidth(parentSize)
     }
-
-    func getHeightFromType(_ parentSize: CGSize) -> Float {
+    
+    func getHeightFromType(_ parentSize: CGSize) -> CGFloat {
         guard let size = presentationType.size() else {
-            if case .dynamic = presentationType {
-                return Float(presentedViewController.view.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height)
+            if case .dynamic(let modalCenterPosition) = presentationType {
+                presentedViewController.view.layoutIfNeeded()
+                let height = ceil(presentedViewController.view.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height)
+                if case .bottom(let percentage, _) = modalCenterPosition {
+                    var safeAreaInset: CGFloat = 0
+                    if #available(iOS 11.0, *) {
+                        safeAreaInset = presentedViewController.view.safeAreaInsets.top + presentedViewController.view.safeAreaInsets.bottom
+                    }
+                    return min(parentSize.height * percentage, height + (contentInset != 0 ? 0 : pannedHeight + safeAreaInset), parentSize.height - contentInset * 2 - safeAreaInset)
+                } else {
+                    return min(height, height + (contentInset != 0 ? 0 : pannedHeight), parentSize.height - (contentInset * 2))
+                }
             }
             return 0
         }
-
         return size.height.calculateHeight(parentSize)
     }
 
-    func getCenterPointFromType() -> CGPoint? {
+    func getCenterPointFromType(size: CGSize) -> CGPoint? {
         let containerBounds = containerFrame
         let position = presentationType.position()
-        return position.calculateCenterPoint(containerBounds)
+        return position.calculateCenterPoint(containerBounds, size: size, contentInset: contentInset)
     }
 
     func getOriginFromType() -> CGPoint? {
@@ -337,6 +406,12 @@ fileprivate extension PresentrController {
 
     func calculateOrigin(_ center: CGPoint, size: CGSize) -> CGPoint {
         let x: CGFloat = center.x - size.width / 2
+        if case .dynamic(let modalCenterPosition) = presentationType {
+            if case .bottom(_) = modalCenterPosition{
+                let y: CGFloat = center.y - size.height / 2 - (contentInset != 0 ? (contentInset + pannedHeight) : 0)
+                return CGPoint(x: x, y: y)
+            }
+        }
         let y: CGFloat = center.y - size.height / 2
         return CGPoint(x: x, y: y)
     }
@@ -372,7 +447,9 @@ extension PresentrController {
         if gesture.state == .began {
             presentedViewFrame = presentedViewController.view.frame
             presentedViewCenter = presentedViewController.view.center
-
+            if #available(iOS 12.0, *) {
+                presentedViewSafeAreaInsets = presentedViewController.view.safeAreaInsets
+            }
             let directionDown = gesture.translation(in: presentedViewController.view).y > 0
             if (shouldSwipeBottom && directionDown) || (shouldSwipeTop && !directionDown) {
                 latestShouldDismiss = conformingPresentedController?.presentrShouldDismiss?(keyboardShowing: keyboardIsShowing) ?? true
@@ -384,48 +461,55 @@ extension PresentrController {
         }
     }
 
-
-
     // MARK: Helper's
 
+    
     func swipeGestureChanged(gesture: UIPanGestureRecognizer) {
-        let amount = gesture.translation(in: presentedViewController.view)
-
-        if shouldSwipeTop && amount.y > 0 {
-            return
-        } else if shouldSwipeBottom && amount.y < 0 {
-            return
+        
+        let velocity = gesture.velocity(in: presentedViewController.view)
+        let translation = gesture.translation(in: presentedViewController.view)
+        if velocity.x / velocity.y < 5.0 {
+            if presentedViewCenter.y + translation.y > presentedViewCenter.y {
+                presentedViewController.view.center = CGPoint(x: presentedViewCenter.x, y: presentedViewCenter.y + translation.y)
+                if #available(iOS 12.0, *) {
+                    if presentedViewController.view.safeAreaInsets == .zero {
+                        presentedViewController.additionalSafeAreaInsets = presentedViewSafeAreaInsets
+                    }
+                }
+            } else {
+                if #available(iOS 12.0, *) {
+                    presentedViewController.additionalSafeAreaInsets = .zero
+                }
+                pannedHeight = ceil(-translation.y / 10)
+                presentedView?.frame = CGRect(x: presentedViewFrame.origin.x, y: presentedViewFrame.origin.y - pannedHeight, width: presentedViewFrame.width, height: presentedViewFrame.height + pannedHeight)
+            }
         }
-
-        var swipeLimit: CGFloat = 100
-        if shouldSwipeTop {
-            swipeLimit = -swipeLimit
-        }
-
-        presentedViewController.view.center = CGPoint(x: presentedViewCenter.x, y: presentedViewCenter.y + amount.y)
-
-        let dismiss = shouldSwipeTop ? (amount.y < swipeLimit) : ( amount.y > swipeLimit)
-        if dismiss && latestShouldDismiss {
-            presentedViewIsBeingDissmissed = true
-            presentedViewController.dismiss(animated: dismissAnimated, completion: nil)
-        }
+        closeSpeed = velocity.y
+        closePercent = translation.y / presentedViewFrame.height
     }
 
     func swipeGestureEnded() {
-        guard !presentedViewIsBeingDissmissed else {
-            return
+        if closeSpeed > 750.0 || closePercent > 0.33 {
+            presentedViewController.dismiss(animated: dismissAnimated, completion: nil)
+        } else {
+            
+            if #available(iOS 12.0, *) {
+                presentedViewController.additionalSafeAreaInsets = .zero
+            }
+            closeSpeed = 0.0
+            closePercent = 0.0
+            pannedHeight = 0.0
+            
+            UIView.animate(withDuration: 0.4,
+                           delay: 0,
+                           usingSpringWithDamping: 0.7,
+                           initialSpringVelocity: 1,
+                           options: [],
+                           animations: {
+                            self.presentedView?.frame = self.presentedViewFrame
+            }, completion: nil)
         }
-
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       usingSpringWithDamping: 0.5,
-                       initialSpringVelocity: 1,
-                       options: [],
-                       animations: {
-            self.presentedViewController.view.frame = self.presentedViewFrame
-        }, completion: nil)
     }
-
 }
 
 // MARK: - Keyboard Handling
@@ -456,5 +540,42 @@ extension PresentrController {
             keyboardIsShowing = false
         }
     }
+}
 
+extension PresentrController: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer else { return true }
+        guard let view = pan.view as? UIScrollView else { return true }
+        let point = pan.location(ofTouch: 0, in: view)
+        let velocity = pan.velocity(in: view)
+        let directionDown = pan.translation(in: view).y > 0
+        guard (shouldSwipeBottom && directionDown) || (shouldSwipeTop && !directionDown) else {
+            return false
+        }
+        if view.bounds.contains(point) && velocity.y > 0.0 && velocity.x / velocity.y < 5.0 && view.contentOffset == .zero {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let pan = gestureRecognizer as? UIPanGestureRecognizer, pan.numberOfTouches > 0 else { return false }
+        guard let _ = gestureRecognizer.view as? UIScrollView else {
+            guard let otherView = otherGestureRecognizer.view as? UIScrollView else { return false }
+            let point = pan.location(ofTouch: 0, in: otherView)
+            let velocity = pan.velocity(in: otherView)
+            let directionDown = pan.translation(in: otherView).y > 0
+            guard (shouldSwipeBottom && directionDown) || (shouldSwipeTop && !directionDown) else {
+                return false
+            }
+            if otherView.bounds.contains(point) && velocity.y > 0.0 && velocity.x / velocity.y < 5.0 && otherView.contentOffset == .zero {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
+    }
 }
