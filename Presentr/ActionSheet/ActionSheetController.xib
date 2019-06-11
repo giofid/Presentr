@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,12 +13,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActionSheetController" customModule="Presentr" customModuleProvider="target">
             <connections>
                 <outlet property="actionsTableView" destination="A1E-9y-IFr" id="Ihp-ge-C7Z"/>
+                <outlet property="bottomConstraint" destination="VQK-SK-PiH" id="cx7-GW-9MG"/>
                 <outlet property="cancelTableView" destination="WqH-ZS-T0r" id="1JG-YU-Kvl"/>
                 <outlet property="containerView" destination="IF4-cX-OPH" id="feE-QT-Lm4"/>
                 <outlet property="headerActionView" destination="lRh-Lz-2XI" id="wyE-P1-k0Z"/>
                 <outlet property="headerActionsView" destination="Df3-wI-LWD" id="TgF-aP-nD8"/>
                 <outlet property="headerTableView" destination="a3B-3C-EGM" id="31V-CP-JkT"/>
                 <outlet property="separatorView" destination="lIP-gD-hQm" id="gl3-pw-rki"/>
+                <outlet property="topConstraint" destination="MkS-nD-0Z3" id="alW-1i-rOt"/>
                 <outlet property="view" destination="beP-y2-YR7" id="H8h-hx-rc6"/>
             </connections>
         </placeholder>
@@ -38,12 +39,12 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="212.5"/>
                                     <subviews>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="258" verticalCompressionResistancePriority="758" placeholderIntrinsicWidth="375" placeholderIntrinsicHeight="50" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a3B-3C-EGM" customClass="AutoSizingTableView" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </tableView>
                                         <view contentMode="scaleToFill" verticalHuggingPriority="254" verticalCompressionResistancePriority="756" translatesAutoresizingMaskIntoConstraints="NO" id="lIP-gD-hQm" customClass="SeparatorView" customModule="Presentr" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="70" width="375" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="69.5" width="375" height="0.5"/>
                                             <color key="backgroundColor" white="0.77885974702380945" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="999" constant="0.5" id="EfK-Xk-QNh"/>
@@ -80,9 +81,9 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="IF4-cX-OPH" firstAttribute="top" secondItem="hRz-mV-A9x" secondAttribute="top" id="MkS-nD-0Z3"/>
+                <constraint firstItem="IF4-cX-OPH" firstAttribute="top" secondItem="beP-y2-YR7" secondAttribute="top" id="MkS-nD-0Z3"/>
                 <constraint firstItem="IF4-cX-OPH" firstAttribute="trailing" secondItem="beP-y2-YR7" secondAttribute="trailing" id="OwA-Ra-9dL"/>
-                <constraint firstItem="IF4-cX-OPH" firstAttribute="bottom" secondItem="hRz-mV-A9x" secondAttribute="bottom" id="VQK-SK-PiH"/>
+                <constraint firstItem="IF4-cX-OPH" firstAttribute="bottom" secondItem="beP-y2-YR7" secondAttribute="bottom" id="VQK-SK-PiH"/>
                 <constraint firstItem="IF4-cX-OPH" firstAttribute="leading" secondItem="beP-y2-YR7" secondAttribute="leading" id="XmN-eN-eJh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

@@ -39,7 +39,7 @@ enum ExampleSection {
         case .bottomHalf:
             return [.bottomHalfDefault, .bottomHalfCustom]
         case .other:
-            return [.backgroundBlur, .customBackground, .keyboardTest, .fullScreen]
+            return [.backgroundBlur, .customBackground, .keyboardTest, .fullScreen, .fullScreenFlip]
         case .advanced:
             return [.custom, .customAnimation, .modifiedAnimation, .coverVerticalWithSpring, .dynamicSize, .currentContext]
         }
@@ -71,7 +71,8 @@ enum ExampleItem: String {
     case bottomHalfDefault = "BottomHalf with default animation"
     case bottomHalfCustom = "BottomHalf with custom animation"
 
-    case fullScreen = "Full Screen"
+    case fullScreen = "Full Screen with default animation"
+    case fullScreenFlip = "Full Screen with flip animation"
     case customBackground = "Custom background"
     case keyboardTest = "Keyboard translation"
     case backgroundBlur = "Background blur"
@@ -124,6 +125,8 @@ enum ExampleItem: String {
 
         case .fullScreen:
             return #selector(MainTableViewController.fullScreenPresentation)
+        case .fullScreenFlip:
+            return #selector(MainTableViewController.fullScreenPresentationFlip)
         case .backgroundBlur:
             return #selector(MainTableViewController.backgroundBlurTest)
         case .keyboardTest:
@@ -632,6 +635,13 @@ extension MainTableViewController {
         presenter.transitionType = .coverVertical
         presenter.dismissTransitionType = .crossDissolve
         customPresent(alertController, presentr: presenter, animated: true)
+    }
+
+    @objc func fullScreenPresentationFlip() {
+        presenter.presentationType = .fullScreen
+        presenter.transitionType = .flipHorizontal
+        presenter.dismissTransitionType = .flipHorizontal
+        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
     }
 
     @objc func customBackgroundPresentation() {

@@ -30,7 +30,10 @@ public class AlertViewController: UIViewController {
     public var dismissAnimated: Bool = true
     
     /// TextField
-    public var textFields: [UITextField] = []
+    public private (set) var textFields: [UITextField] = []
+    
+    /// Custom view
+    fileprivate var customView: UIView?
 
     fileprivate var actions = [AlertAction]()
     
@@ -53,7 +56,7 @@ public class AlertViewController: UIViewController {
     public init(title: String?, body: String?, style: AlertViewStyle = .default) {
         self.titleText = title
         self.bodyText = body
-        self.isBodyEmpty = body?.trimmingCharacters(in: .whitespaces).isEmpty ?? true
+        self.isBodyEmpty = body?.trimmingCharacters(in: .whitespaces).isEmpty ?? false
         self.style = style
         super.init(nibName: "AlertViewController", bundle: Bundle(for: AlertViewController.self))
     }
@@ -118,15 +121,16 @@ public class AlertViewController: UIViewController {
         let textField = PaddingUITextField()
         textField.leftInset = 20
         textField.rightInset = 20
-        if bodyText?.isEmpty ?? true {
-            bodyText = " "
-        }
         configurationHandler?(textField)
         textFields.append(textField)
     }
     
+    public func addCustomView(_ view: UIView) {
+        customView = view
+    }
+    
     public func showError(message: String) {
-        assert(!textFields.isEmpty && isBodyEmpty, "An error can only be showed if there's at least a text field and body text is empty.")
+        assert(!textFields.isEmpty && isBodyEmpty, "An error can only be showed if there's at least a text field and body text is empty (not nil).")
         bodyLabel.text = message
         bodyLabel.textAlignment = .left
         bodyLabel.textColor = .red
@@ -151,9 +155,11 @@ public class AlertViewController: UIViewController {
                 textField.textColor = appearance.body.textColor
                 textField.borderColor = UIColor(red: 218.0/255.0, green: 218.0/255.0, blue: 218.0/255.0, alpha: 1)
                 textField.borderWidth = 0.5
+                textField.cornerRadius = 4
                 textField.backgroundColor = .white
                 textField.heightAnchor.constraint(equalToConstant: 45).isActive = true
                 textField.autocorrectionType = .no
+                textField.backgroundColor = appearance.backgroundColor
                 if textField === textFields.last {
                     textField.returnKeyType = .done
                     textField.addTarget(textField, action: #selector(UIResponder.resignFirstResponder), for: .editingDidEndOnExit)
@@ -165,9 +171,19 @@ public class AlertViewController: UIViewController {
             }
         }
         
+        func setupCustomView() {
+            guard let customView = customView else { return }
+            customViewsStackView.addArrangedSubview(customView)
+        }
+        
+        customViewsStackView.spacing = 10
+        customViewsStackView.isLayoutMarginsRelativeArrangement = true
+        customViewsStackView.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        
         if style == .activityIndicator {
             setupActivityIndicatorView()
         }
+        setupCustomView()
         setupTextField()
         if customViewsStackView.arrangedSubviews.isEmpty {
             customViewsStackView.removeFromSuperview()
