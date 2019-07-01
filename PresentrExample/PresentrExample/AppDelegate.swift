@@ -68,6 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appearance.alert.button.cornerRadius = 4
         appearance.alert.defaultButton.font = UIFont.boldSystemFont(ofSize: 12)
         appearance.alert.defaultButton.cornerRadius = 4
+        appearance.alert.destructiveButton.cornerRadius = 4
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

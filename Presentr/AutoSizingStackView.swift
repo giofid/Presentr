@@ -23,6 +23,8 @@ class AutoSizingStackView: UIStackView {
                 height += view.intrinsicContentSize.height + spacing
             }
             return CGSize(width: UIView.noIntrinsicMetric, height: height - spacing)
+        @unknown default:
+            return super.intrinsicContentSize
         }
     }
 }
