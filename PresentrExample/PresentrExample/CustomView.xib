@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomView" customModule="PresentrExample" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="245" height="147"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="k4o-5V-AWw" customClass="AutoSizingStackView" customModule="Presentr">
+                    <rect key="frame" x="0.0" y="0.0" width="245" height="137"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Per la generazione utilizza uno dei servizi a tua disposizione" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="230" translatesAutoresizingMaskIntoConstraints="NO" id="sq2-MS-LbO">
+                            <rect key="frame" x="0.0" y="0.0" width="245" height="36"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="046-0U-Ff8">
+                            <rect key="frame" x="0.0" y="56" width="245" height="81"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="28g-HT-8al">
+                                    <rect key="frame" x="0.0" y="0.0" width="78.5" height="55"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o1Y-nu-72n">
+                                            <rect key="frame" x="0.0" y="0.0" width="78.5" height="55"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <state key="normal" image="ico_otp_ios">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </state>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apri l’app Aruba OTP" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="78" translatesAutoresizingMaskIntoConstraints="NO" id="ZBp-L5-jAc">
+                                            <rect key="frame" x="0.0" y="24" width="78.5" height="31"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="ZBp-L5-jAc" firstAttribute="leading" secondItem="28g-HT-8al" secondAttribute="leading" id="0kf-dj-MMm"/>
+                                        <constraint firstItem="o1Y-nu-72n" firstAttribute="leading" secondItem="28g-HT-8al" secondAttribute="leading" id="G4W-4r-4JK"/>
+                                        <constraint firstAttribute="bottom" secondItem="ZBp-L5-jAc" secondAttribute="bottom" id="NWy-t0-hHK"/>
+                                        <constraint firstItem="ZBp-L5-jAc" firstAttribute="top" secondItem="28g-HT-8al" secondAttribute="top" constant="24" id="UK0-CC-C74"/>
+                                        <constraint firstItem="o1Y-nu-72n" firstAttribute="top" secondItem="28g-HT-8al" secondAttribute="top" id="VSV-DW-lQ7"/>
+                                        <constraint firstAttribute="trailing" secondItem="o1Y-nu-72n" secondAttribute="trailing" id="gBe-Oh-mYh"/>
+                                        <constraint firstAttribute="trailing" secondItem="ZBp-L5-jAc" secondAttribute="trailing" id="gef-l9-3I9"/>
+                                        <constraint firstAttribute="bottom" secondItem="o1Y-nu-72n" secondAttribute="bottom" id="nbK-qe-aBo"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oep-PJ-99U">
+                                    <rect key="frame" x="83.5" y="0.0" width="78" height="55"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Psc-0h-imd">
+                                            <rect key="frame" x="0.0" y="0.0" width="78" height="55"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <state key="normal" image="ico_call2">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </state>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chiamata da Aruba Call" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="78" translatesAutoresizingMaskIntoConstraints="NO" id="ea6-18-nlW">
+                                            <rect key="frame" x="0.0" y="24" width="78" height="31"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="Psc-0h-imd" secondAttribute="trailing" id="2Et-tI-xdk"/>
+                                        <constraint firstAttribute="trailing" secondItem="ea6-18-nlW" secondAttribute="trailing" id="2v9-iT-wmb"/>
+                                        <constraint firstItem="ea6-18-nlW" firstAttribute="top" secondItem="Oep-PJ-99U" secondAttribute="top" constant="24" id="Hed-jO-WCf"/>
+                                        <constraint firstAttribute="bottom" secondItem="Psc-0h-imd" secondAttribute="bottom" id="PAx-Gt-L8f"/>
+                                        <constraint firstItem="Psc-0h-imd" firstAttribute="leading" secondItem="Oep-PJ-99U" secondAttribute="leading" id="Ttr-Kx-WyT"/>
+                                        <constraint firstAttribute="bottom" secondItem="ea6-18-nlW" secondAttribute="bottom" id="a0M-f9-JDu"/>
+                                        <constraint firstItem="Psc-0h-imd" firstAttribute="top" secondItem="Oep-PJ-99U" secondAttribute="top" id="fOB-Wk-mGe"/>
+                                        <constraint firstItem="ea6-18-nlW" firstAttribute="leading" secondItem="Oep-PJ-99U" secondAttribute="leading" id="hFA-ey-aW1"/>
+                                    </constraints>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pDb-0W-0Zx">
+                                    <rect key="frame" x="166.5" y="0.0" width="78.5" height="55"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FYg-rU-OsG">
+                                            <rect key="frame" x="0.0" y="0.0" width="78.5" height="55"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <state key="normal" image="ico_sms2">
+                                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            </state>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messaggio da Aruba SMS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="79" translatesAutoresizingMaskIntoConstraints="NO" id="pr6-7q-wFO">
+                                            <rect key="frame" x="0.0" y="24" width="78.5" height="31"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="pr6-7q-wFO" firstAttribute="top" secondItem="pDb-0W-0Zx" secondAttribute="top" constant="24" id="0n7-z2-gVq"/>
+                                        <constraint firstAttribute="trailing" secondItem="pr6-7q-wFO" secondAttribute="trailing" id="AJy-Wy-5rD"/>
+                                        <constraint firstAttribute="trailing" secondItem="FYg-rU-OsG" secondAttribute="trailing" id="YkP-fz-Fpq"/>
+                                        <constraint firstAttribute="bottom" secondItem="pr6-7q-wFO" secondAttribute="bottom" id="jch-Q1-ZF0"/>
+                                        <constraint firstItem="FYg-rU-OsG" firstAttribute="leading" secondItem="pDb-0W-0Zx" secondAttribute="leading" id="pfm-Mc-niK"/>
+                                        <constraint firstItem="FYg-rU-OsG" firstAttribute="top" secondItem="pDb-0W-0Zx" secondAttribute="top" id="rbQ-zj-oFg"/>
+                                        <constraint firstAttribute="bottom" secondItem="FYg-rU-OsG" secondAttribute="bottom" id="uuf-ci-8TE"/>
+                                        <constraint firstItem="pr6-7q-wFO" firstAttribute="leading" secondItem="pDb-0W-0Zx" secondAttribute="leading" id="xzS-Hg-khf"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="k4o-5V-AWw" secondAttribute="bottom" constant="10" id="1HO-6U-fFF"/>
+                <constraint firstItem="k4o-5V-AWw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="5RE-Rc-VMh"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="k4o-5V-AWw" secondAttribute="trailing" id="h6u-IA-Igv"/>
+                <constraint firstItem="k4o-5V-AWw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="lnp-ZV-pBu"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="arubaCallButton" destination="Psc-0h-imd" id="2rb-Uy-HvU"/>
+                <outlet property="otpButton" destination="o1Y-nu-72n" id="EhG-e6-H0i"/>
+                <outlet property="otpView" destination="28g-HT-8al" id="Z4J-y5-Xgw"/>
+                <outlet property="smsButton" destination="FYg-rU-OsG" id="rAP-OH-6d2"/>
+            </connections>
+            <point key="canvasLocation" x="132" y="-79.610194902548727"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ico_call2" width="24" height="24"/>
+        <image name="ico_otp_ios" width="24" height="24"/>
+        <image name="ico_sms2" width="24" height="24"/>
+    </resources>
+</document>

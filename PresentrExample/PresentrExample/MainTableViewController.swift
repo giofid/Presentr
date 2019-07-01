@@ -31,7 +31,7 @@ enum ExampleSection {
         case .actionsheet:
             return [.menuDefault, .actionSheetDefault]
         case .alert:
-            return [.alertDefault, .alertWithTextField, .alertWithActivityIndicator, .alertCustom, .alertWithout]
+            return [.alertDefault, .alertWithTextField, .alertWithCustomView, .alertWithActivityIndicator, .alertCustom, .alertWithout]
         case .popup:
             return [.popupDefault, .popupCustom]
         case .topHalf:
@@ -58,6 +58,7 @@ enum ExampleItem: String {
     
     case alertDefault = "Alert with default animation"
     case alertWithTextField = "Alert with text field"
+    case alertWithCustomView = "Alert with custom view"
     case alertWithActivityIndicator = "Alert with activity indicator"
     case alertCustom = "Alert with custom animation"
     case alertWithout = "Alert without animation"
@@ -101,6 +102,8 @@ enum ExampleItem: String {
             return #selector(MainTableViewController.alertDefault)
         case .alertWithTextField:
             return #selector(MainTableViewController.alertWithTextField)
+        case .alertWithCustomView:
+            return #selector(MainTableViewController.alertWithCustomView)
         case .alertWithActivityIndicator:
             return #selector(MainTableViewController.alertWithActivityIndicator)
         case .alertCustom:
@@ -234,16 +237,19 @@ class MainTableViewController: UITableViewController {
     }()
 
     lazy var alertController: AlertViewController = {
-        let alertController = AlertViewController(title: "Gli operatori non sono attualmente disponibili", body: "Ti suggeriamo di prenotare la tua sessione di riconoscimento nel giorno e ora che preferisci.")
+        let alertController = AlertViewController(title: "Norme sulla privacy", body: "Dichiaro di aver preso visione dell'Informativa privacy resa ai sensi dell’Art. 13 Regolamento Europeo 679/2016, e di rilasciare il consenso al trattamento dei dati personali, per le finalità ivi indicate finalizzate alla corretta esecuzione delle obbligazioni contrattuali.")
         let appearance = alertController.appearance
         appearance.actionsAxis = .vertical
-        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
-        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.font = UIFont(name: "Lato-Regular", size: 17) ?? UIFont.boldSystemFont(ofSize: 16)
+        appearance.body.font = UIFont(name: "Lato-Regular", size: 15) ?? UIFont.systemFont(ofSize: 14)
+        appearance.button.font = UIFont(name: "Lato-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12)
+//        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+//        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
         appearance.title.textColor = .black
         appearance.body.textColor = .darkGray
         appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
-        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
-        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+//        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.font = UIFont(name: "Lato-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12)
         appearance.defaultButton.cornerRadius = 4
         let cancelAction = AlertAction(title: "Riprova più tardi", style: .cancel) { alert in
             print("CANCEL!!")
@@ -257,7 +263,7 @@ class MainTableViewController: UITableViewController {
     }()
     
     lazy var alertWithTextFieldController: AlertViewController = {
-        let alertController = AlertViewController(title: "Inserisci le credenziali che hai ricevuto per email e per SMS", body: nil)
+        let alertController = AlertViewController(title: "Inserisci le credenziali che hai ricevuto per email e per SMS", body: "")
         let appearance = alertController.appearance
         appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
         appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
@@ -286,6 +292,37 @@ class MainTableViewController: UITableViewController {
         })
         alertController.addAction(cancelAction)
         alertController.addAction(okAction)
+        return alertController
+    }()
+    
+    lazy var alertWithCustomViewController: AlertViewController = {
+        let alertController = AlertViewController(title: "Inserisci l'OTP", body: nil)
+        let appearance = alertController.appearance
+        appearance.title.font = UIFont.preferredFont(forTextStyle: .body)
+        appearance.body.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.title.textColor = .black
+        appearance.body.textColor = .darkGray
+        appearance.backgroundColor = UIColor(red: 249.0/255.0, green: 249.0/255.0, blue: 249.0/255.0, alpha: 1.0)
+        appearance.button.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.button.textColor = .darkGray
+        appearance.defaultButton.font = UIFont.preferredFont(forTextStyle: .caption2)
+        appearance.defaultButton.textColor = .white
+        let okAction = AlertAction(title: "FIRMA", style: .default) { alert in
+            print("FIRMA")
+        }
+        let cancelAction = AlertAction(title: "ANNULLA", style: .cancel) { alert in
+            print("ANNULLA")
+        }
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "Codice OTP"
+            textField.delegate = self
+        })
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        let bundle = Bundle(for: type(of: self))
+        let view = CustomView().loadNib()
+        alertController.addCustomView(view)
+        
         return alertController
     }()
     
@@ -474,27 +511,33 @@ extension MainTableViewController {
         actionSheetController.addAction(ActionSheetAction(title: "action 3", image: nil, handler: { (action) in
             print("action 3")
         }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 4", image: nil, handler: { (action) in
-            print("action 4")
-        }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 5", image: nil, handler: { (action) in
-            print("action 5")
-        }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 6", image: nil, handler: { (action) in
-            print("action 6")
-        }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 7", image: nil, handler: { (action) in
-            print("action 7")
-        }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 8", image: nil, handler: { (action) in
-            print("action 8")
-        }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 9", image: nil, handler: { (action) in
-            print("action 9")
-        }))
-        actionSheetController.addAction(ActionSheetAction(title: "action 10", image: nil, handler: { (action) in
-            print("action 10")
-        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 4", image: nil, handler: { (action) in
+//            print("action 4")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 5", image: nil, handler: { (action) in
+//            print("action 5")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 6", image: nil, handler: { (action) in
+//            print("action 6")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 7", image: nil, handler: { (action) in
+//            print("action 7")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 8", image: nil, handler: { (action) in
+//            print("action 8")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 9", image: nil, handler: { (action) in
+//            print("action 9")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 10", image: nil, handler: { (action) in
+//            print("action 10")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 11", image: nil, handler: { (action) in
+//            print("action 11")
+//        }))
+//        actionSheetController.addAction(ActionSheetAction(title: "action 12", image: nil, handler: { (action) in
+//            print("action 12")
+//        }))
         customPresent(actionSheetController, presentr: menuPresentr, from: tableView.cellForRow(at: tableView.indexPathForSelectedRow!), animated: true)
     }
     
@@ -548,6 +591,15 @@ extension MainTableViewController {
         presenter.dismissOnSwipe = false
         presenter.dismissOnTap = false
         customPresent(alertWithTextFieldController, presentr: alertPresentr, animated: true)
+    }
+    
+    @objc func alertWithCustomView() {
+        presenter.presentationType = .dynamic(center: .center)
+        presenter.transitionType = .crossDissolve
+        presenter.dismissTransitionType = .crossDissolve
+        presenter.dismissOnSwipe = false
+        presenter.dismissOnTap = false
+        customPresent(alertWithCustomViewController, presentr: alertPresentr, animated: true)
     }
     
     @objc func alertWithActivityIndicator() {
@@ -641,7 +693,7 @@ extension MainTableViewController {
         presenter.presentationType = .fullScreen
         presenter.transitionType = .flipHorizontal
         presenter.dismissTransitionType = .flipHorizontal
-        customPresentViewController(presenter, viewController: alertController, animated: true, completion: nil)
+        customPresent(alertController, presentr: presenter, animated: true)
     }
 
     @objc func customBackgroundPresentation() {

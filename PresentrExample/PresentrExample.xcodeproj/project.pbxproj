@@ -20,6 +20,18 @@
 		06A1F0BB1CF3D17E0057C79B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06A1F0BA1CF3D17E0057C79B /* Assets.xcassets */; };
 		06A1F0BE1CF3D17E0057C79B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06A1F0BC1CF3D17E0057C79B /* LaunchScreen.storyboard */; };
 		25591534D92612E66093237C /* Pods_PresentrExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9985464B38C3FFC83D568727 /* Pods_PresentrExample.framework */; };
+		443D5A3A2224381D005EB083 /* CustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 443D5A392224381D005EB083 /* CustomView.xib */; };
+		443D5A3E22243C97005EB083 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443D5A3D22243C97005EB083 /* CustomView.swift */; };
+		443D8733224CE657008DE1A3 /* Lato-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D8729224CE657008DE1A3 /* Lato-Italic.ttf */; };
+		443D8734224CE657008DE1A3 /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D872A224CE657008DE1A3 /* Lato-LightItalic.ttf */; };
+		443D8735224CE657008DE1A3 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D872B224CE657008DE1A3 /* Lato-Bold.ttf */; };
+		443D8736224CE657008DE1A3 /* Lato-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D872C224CE657008DE1A3 /* Lato-Black.ttf */; };
+		443D8737224CE657008DE1A3 /* Lato-HairlineItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D872D224CE657008DE1A3 /* Lato-HairlineItalic.ttf */; };
+		443D8738224CE657008DE1A3 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D872E224CE657008DE1A3 /* Lato-Regular.ttf */; };
+		443D8739224CE657008DE1A3 /* Lato-Hairline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D872F224CE657008DE1A3 /* Lato-Hairline.ttf */; };
+		443D873A224CE657008DE1A3 /* Lato-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D8730224CE657008DE1A3 /* Lato-BlackItalic.ttf */; };
+		443D873B224CE657008DE1A3 /* Lato-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D8731224CE657008DE1A3 /* Lato-BoldItalic.ttf */; };
+		443D873C224CE657008DE1A3 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 443D8732224CE657008DE1A3 /* Lato-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +63,18 @@
 		06A1F0BD1CF3D17E0057C79B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06A1F0BF1CF3D17E0057C79B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2D9A1F9F4161E3588659C3CF /* Pods-PresentrExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PresentrExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-PresentrExample/Pods-PresentrExample.release.xcconfig"; sourceTree = "<group>"; };
+		443D5A392224381D005EB083 /* CustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomView.xib; sourceTree = "<group>"; };
+		443D5A3D22243C97005EB083 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		443D8729224CE657008DE1A3 /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
+		443D872A224CE657008DE1A3 /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		443D872B224CE657008DE1A3 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
+		443D872C224CE657008DE1A3 /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
+		443D872D224CE657008DE1A3 /* Lato-HairlineItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-HairlineItalic.ttf"; sourceTree = "<group>"; };
+		443D872E224CE657008DE1A3 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
+		443D872F224CE657008DE1A3 /* Lato-Hairline.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Hairline.ttf"; sourceTree = "<group>"; };
+		443D8730224CE657008DE1A3 /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		443D8731224CE657008DE1A3 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		443D8732224CE657008DE1A3 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		9985464B38C3FFC83D568727 /* Pods_PresentrExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PresentrExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B37B2AC285D84D58CC7D5CA3 /* Pods-PresentrExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PresentrExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PresentrExample/Pods-PresentrExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,6 +126,7 @@
 				069265821DD0F9AD00B67915 /* MainTableViewController.swift */,
 				0625015C1E80625D00574FF2 /* Split Example */,
 				069265841DD12CF400B67915 /* ExampleTableViewCell.swift */,
+				443D8727224CE657008DE1A3 /* Fonts */,
 				0636751F1E81D8A9005D5B9C /* DynamicViewController.swift */,
 				0644CEC01DADCD02002E586F /* PopupViewController.swift */,
 				068A1D071E13212000883454 /* CustomAnimation.swift */,
@@ -109,6 +134,8 @@
 				06A1F0BA1CF3D17E0057C79B /* Assets.xcassets */,
 				06A1F0BC1CF3D17E0057C79B /* LaunchScreen.storyboard */,
 				06A1F0BF1CF3D17E0057C79B /* Info.plist */,
+				443D5A392224381D005EB083 /* CustomView.xib */,
+				443D5A3D22243C97005EB083 /* CustomView.swift */,
 			);
 			path = PresentrExample;
 			sourceTree = "<group>";
@@ -120,6 +147,31 @@
 				2D9A1F9F4161E3588659C3CF /* Pods-PresentrExample.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		443D8727224CE657008DE1A3 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				443D8728224CE657008DE1A3 /* Lato */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		443D8728224CE657008DE1A3 /* Lato */ = {
+			isa = PBXGroup;
+			children = (
+				443D8729224CE657008DE1A3 /* Lato-Italic.ttf */,
+				443D872A224CE657008DE1A3 /* Lato-LightItalic.ttf */,
+				443D872B224CE657008DE1A3 /* Lato-Bold.ttf */,
+				443D872C224CE657008DE1A3 /* Lato-Black.ttf */,
+				443D872D224CE657008DE1A3 /* Lato-HairlineItalic.ttf */,
+				443D872E224CE657008DE1A3 /* Lato-Regular.ttf */,
+				443D872F224CE657008DE1A3 /* Lato-Hairline.ttf */,
+				443D8730224CE657008DE1A3 /* Lato-BlackItalic.ttf */,
+				443D8731224CE657008DE1A3 /* Lato-BoldItalic.ttf */,
+				443D8732224CE657008DE1A3 /* Lato-Light.ttf */,
+			);
+			path = Lato;
 			sourceTree = "<group>";
 		};
 		FC2179870F3AC2AF401182C7 /* Frameworks */ = {
@@ -160,13 +212,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = danielozano;
 				TargetAttributes = {
 					06A1F0AF1CF3D17E0057C79B = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 4Z69T6JWL8;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -176,6 +228,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -194,9 +247,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				443D8735224CE657008DE1A3 /* Lato-Bold.ttf in Resources */,
+				443D8733224CE657008DE1A3 /* Lato-Italic.ttf in Resources */,
+				443D8739224CE657008DE1A3 /* Lato-Hairline.ttf in Resources */,
+				443D8734224CE657008DE1A3 /* Lato-LightItalic.ttf in Resources */,
 				06A1F0BE1CF3D17E0057C79B /* LaunchScreen.storyboard in Resources */,
+				443D8736224CE657008DE1A3 /* Lato-Black.ttf in Resources */,
+				443D8737224CE657008DE1A3 /* Lato-HairlineItalic.ttf in Resources */,
+				443D5A3A2224381D005EB083 /* CustomView.xib in Resources */,
+				443D873A224CE657008DE1A3 /* Lato-BlackItalic.ttf in Resources */,
+				443D8738224CE657008DE1A3 /* Lato-Regular.ttf in Resources */,
 				06A1F0BB1CF3D17E0057C79B /* Assets.xcassets in Resources */,
 				06A1F0B91CF3D17E0057C79B /* Main.storyboard in Resources */,
+				443D873B224CE657008DE1A3 /* Lato-BoldItalic.ttf in Resources */,
+				443D873C224CE657008DE1A3 /* Lato-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,7 +273,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-PresentrExample/Pods-PresentrExample-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-PresentrExample/Pods-PresentrExample-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
 			);
@@ -220,7 +284,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PresentrExample/Pods-PresentrExample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PresentrExample/Pods-PresentrExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F965E49DDC461133DEBE58C5 /* [CP] Check Pods Manifest.lock */ = {
@@ -253,6 +317,7 @@
 				069265851DD12CF400B67915 /* ExampleTableViewCell.swift in Sources */,
 				06A1F0B41CF3D17E0057C79B /* AppDelegate.swift in Sources */,
 				0644CEC11DADCD02002E586F /* PopupViewController.swift in Sources */,
+				443D5A3E22243C97005EB083 /* CustomView.swift in Sources */,
 				068A1D081E13212000883454 /* CustomAnimation.swift in Sources */,
 				063675201E81D8A9005D5B9C /* DynamicViewController.swift in Sources */,
 				0625015B1E80624400574FF2 /* SplitViewController.swift in Sources */,
@@ -286,6 +351,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -342,6 +408,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -394,6 +461,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4Z69T6JWL8;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -406,7 +474,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = danielozano.PresentrExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -417,6 +486,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 4Z69T6JWL8;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -429,7 +499,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = danielozano.PresentrExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
